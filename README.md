@@ -17,5 +17,9 @@ Edge case - indicate if character in multiple locations in episode
 - Show where characters are from - could by implemented as a new map, or as a filter (or both?)
 - Use bluebike-style pins to show how many people in each location (click/hover for more info)
 - add filters: e.g. show where all starks are (bonus idea - render "heaven")
-- Animate movement of characters 
+- Animate movement of characters
 - Links to wiki everywhere
+
+
+master
+ilovegot
