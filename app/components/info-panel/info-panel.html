@@ -1,10 +1,19 @@
 <div ref="container" class="info-container">
-  <div ref="title" class="info-title">
-    <h1>Nothing Selected</h1>
-  </div>
-  <div class="info-body">
-    <div class="info-content-container">
-      <div ref="content" class="info-content"></div>
+  <div class="info-header">
+    <div ref="controls" class="info-controls">
+      <div>
+        <span>Season:</span>
+        <select ref="control-season"></select>
+      </div>
+      <div>
+        <span>Episode:</span>
+        <select ref="control-episode"></select>
+      </div>
+    </div>
+    <div ref="title" class="info-title">
+      No Location Selected
     </div>
   </div>
+  <div ref="content" class="info-content">some content</div>
+  <div ref="toggle" class="info-toggle"></div>
 </div>

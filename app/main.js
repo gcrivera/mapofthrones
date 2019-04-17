@@ -30,6 +30,9 @@ class ViewController {
     // this.infoComponent = new InfoPanel('info-panel-placeholder', {
     //   data: { apiService: this.api }
     // });
+    this.infoComponent = new InfoPanel('info-panel-placeholder', {
+      data: {}
+    });
 
     // Initialize Map
     // this.mapComponent = new Map('map-placeholder', {
