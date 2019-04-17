@@ -1,5 +1,6 @@
 .DS_Store
 .env
 error.log
+info.log
 node_modules/
 package-lock.json
