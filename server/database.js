@@ -79,5 +79,70 @@ module.exports = {
       LIMIT(1);`
     const result = await client.query(summaryQuery, [ id ])
     return result.rows[0]
+  },
+
+  getEpisode: async (seasonNum, episodeNum) => {
+    let data;
+
+    // Get general episode data
+    let summaryQuery = `
+      SELECT *
+      FROM episodes
+      WHERE seasonnum = $1
+      AND episodenum = $2
+      LIMIT(1);`
+    let result = await client.query(summaryQuery, [ seasonNum, episodeNum ])
+    data = result.rows[0]
+
+    summaryQuery = `
+      SELECT *
+      FROM scenes
+      WHERE seasonnum = $1
+      AND episodenum = $2;`
+    result = await client.query(summaryQuery, [ seasonNum, episodeNum ])
+
+    let locations = {};
+    let loc;
+    let characters;
+    let allCharacters = [];
+    result.rows.forEach((scene) => {
+      loc = scene.location;
+      if (scene.sublocation != 'NULL') {
+        loc = scene.sublocation;
+      }
+      characters = scene.characters.characters.map((char) => {
+        return char.name
+      });
+      newCharacters = characters.filter(x => allCharacters.indexOf(x) == -1)
+      allCharacters = Array.from(new Set([...newCharacters, ...allCharacters]));
+
+
+      if (!locations[loc]) {
+        locations[loc] = {
+          characters: characters
+        }
+      } else {
+        characters = characters.filter(x => locations[loc].characters.indexOf(x) == -1)
+        locations[loc].characters = Array.from(new Set([...characters, ...locations[loc].characters]));
+      }
+    });
+
+    for (loc in locations) {
+      summaryQuery = `
+        SELECT *
+        FROM locations
+        WHERE name = $1;`
+      result = await client.query(summaryQuery, [ loc ])
+      let loc_data = result.rows[0];
+      if (loc_data != undefined) {
+        loc_data.characters = locations[loc].characters;
+        locations[loc] = loc_data;
+      }
+    }
+
+    // TODO: Query for main character data and add it to locations object
+    console.log(allCharacters)
+
+
   }
 }
