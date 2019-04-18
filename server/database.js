@@ -173,6 +173,7 @@ module.exports = {
 
     let remainingLocs = allLocations.filter(x => locMatches.indexOf(x) == -1)
 
+    data.locations = [];
     for (i in remainingLocs) {
       let name = remainingLocs[i];
       if (locations[name].super != undefined ) {
@@ -181,16 +182,26 @@ module.exports = {
           let missingChars = locations[name].characters.filter(x => locations[superLoc].characters.indexOf(x) == -1)
           locations[superLoc].characters = Array.from(new Set([...missingChars, ...locations[superLoc].characters]));
         } else {
-          // TODO: query database for super here. May not have matched earlier, but may be in db.
-          console.log(locMatches)
-          console.log('No Loc Match for name or super. Name: ' + name + '. Super: ' + superLoc)
+          summaryQuery = `
+            SELECT *
+            FROM locations
+            WHERE name = $1;`;
+          superResult = await client.query(summaryQuery, [ superLoc ]);
+          if (superResult.rows.length > 0) {
+            let row = superResult.rows[0];
+            row.characters = locations[name].characters.map((char) => {
+              return allCharacterData[char];
+            });
+            data.locations.push(row)
+          } else {
+            console.log('No Loc Match for name or super. Name: ' + name + '. Super: ' + superLoc)
+          }
         }
       } else {
-        console.log('Super undefined for name: ' + name)
+        console.log('No loc match and Super undefined for name: ' + name)
       }
     }
 
-    data.locations = [];
     for (i in result.rows) {
       let row = result.rows[i];
       row.characters = locations[row.name].characters.map((char) => {
