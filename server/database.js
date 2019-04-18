@@ -121,28 +121,84 @@ module.exports = {
         locations[loc] = {
           characters: characters
         }
+        if (scene.sublocation != 'NULL') {
+          locations[loc].super = scene.location;
+        }
       } else {
         characters = characters.filter(x => locations[loc].characters.indexOf(x) == -1)
         locations[loc].characters = Array.from(new Set([...characters, ...locations[loc].characters]));
       }
     });
 
-    for (loc in locations) {
-      summaryQuery = `
-        SELECT *
-        FROM locations
-        WHERE name = $1;`
-      result = await client.query(summaryQuery, [ loc ])
-      let loc_data = result.rows[0];
-      if (loc_data != undefined) {
-        loc_data.characters = locations[loc].characters;
-        locations[loc] = loc_data;
+    let params = [];
+    for (let i = 1; i <= allCharacters.length; i++) {
+      params.push('$' + i);
+    }
+    summaryQuery = `
+      SELECT *
+      FROM characters
+      WHERE name IN (` + params.join(',') + `);`;
+    result = await client.query(summaryQuery, allCharacters);
+
+    let allCharacterData = {}
+    for (i in result.rows) {
+      let row = result.rows[i];
+      allCharacterData[row.name] = row;
+      allCharacterData[row.name].main = true;
+    }
+
+    for (i in allCharacters) {
+      let name = allCharacters[i];
+      if (!allCharacterData[name]) {
+        allCharacterData[name] = {name: name};
       }
     }
 
-    // TODO: Query for main character data and add it to locations object
-    console.log(allCharacters)
+    let allLocations = Object.keys(locations);
+    params = [];
+    for (let i = 1; i <= allLocations.length; i++) {
+      params.push('$' + i);
+    }
+    summaryQuery = `
+      SELECT *
+      FROM locations
+      WHERE name IN (` + params.join(',') + `);`;
+    result = await client.query(summaryQuery, allLocations);
 
+    let locMatches = [];
+    for (i in result.rows) {
+      let row = result.rows[i];
+      locMatches.push(row.name);
+    }
 
+    let remainingLocs = allLocations.filter(x => locMatches.indexOf(x) == -1)
+
+    for (i in remainingLocs) {
+      let name = remainingLocs[i];
+      if (locations[name].super != undefined ) {
+        let superLoc = locations[name].super;
+        if (locMatches.indexOf(superLoc) != -1) {
+          let missingChars = locations[name].characters.filter(x => locations[superLoc].characters.indexOf(x) == -1)
+          locations[superLoc].characters = Array.from(new Set([...missingChars, ...locations[superLoc].characters]));
+        } else {
+          // TODO: query database for super here. May not have matched earlier, but may be in db.
+          console.log(locMatches)
+          console.log('No Loc Match for name or super. Name: ' + name + '. Super: ' + superLoc)
+        }
+      } else {
+        console.log('Super undefined for name: ' + name)
+      }
+    }
+
+    data.locations = [];
+    for (i in result.rows) {
+      let row = result.rows[i];
+      row.characters = locations[row.name].characters.map((char) => {
+        return allCharacterData[char];
+      });
+      data.locations.push(row);
+    }
+
+    return data;
   }
 }

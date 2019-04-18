@@ -104,7 +104,7 @@ router.get('/episodes/:season/:num', async ctx => {
   const seasonNum = ctx.params.season
   const episodeNum = ctx.params.num
   const result = await database.getEpisode(seasonNum, episodeNum)
-  // ctx.body = result ? result.count : ctx.throw(404)
+  ctx.body = result || ctx.throw(404)
 })
 
 module.exports = router
