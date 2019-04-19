@@ -173,7 +173,8 @@ module.exports = {
 
     let remainingLocs = allLocations.filter(x => locMatches.indexOf(x) == -1)
 
-    data.locations = [];
+    let supers = {}
+
     for (i in remainingLocs) {
       let name = remainingLocs[i];
       if (locations[name].super != undefined ) {
@@ -182,24 +183,35 @@ module.exports = {
           let missingChars = locations[name].characters.filter(x => locations[superLoc].characters.indexOf(x) == -1)
           locations[superLoc].characters = Array.from(new Set([...missingChars, ...locations[superLoc].characters]));
         } else {
-          summaryQuery = `
-            SELECT *
-            FROM locations
-            WHERE name = $1;`;
-          superResult = await client.query(summaryQuery, [ superLoc ]);
-          if (superResult.rows.length > 0) {
-            let row = superResult.rows[0];
-            row.characters = locations[name].characters.map((char) => {
-              return allCharacterData[char];
-            });
-            data.locations.push(row)
+          if (supers[superLoc] != undefined) {
+            let missingChars = locations[name].characters.filter(x => supers[superLoc].characters.indexOf(x) == -1)
+            supers[superLoc].characters = Array.from(new Set([...missingChars, ...supers[superLoc].characters]));
           } else {
-            console.log('No Loc Match for name or super. Name: ' + name + '. Super: ' + superLoc)
+            summaryQuery = `
+              SELECT *
+              FROM locations
+              WHERE name = $1;`;
+            superResult = await client.query(summaryQuery, [ superLoc ]);
+            if (superResult.rows.length > 0) {
+              let row = superResult.rows[0];
+              row.characters = locations[name].characters;
+              supers[superLoc] = row;
+            } else {
+              console.log('No Loc Match for name or super. Name: ' + name + '. Super: ' + superLoc)
+            }
           }
         }
       } else {
         console.log('No loc match and Super undefined for name: ' + name)
       }
+    }
+
+    data.locations = [];
+    for (i in supers) {
+      let superChars = supers[i].characters.map((char) => {
+        return allCharacterData[char];
+      });
+      data.locations.push(supers[i]);
     }
 
     for (i in result.rows) {
