@@ -41,7 +41,8 @@ router.get('/locations/:type', typeValidator, async ctx => {
   const type = ctx.params.type
   const results = await database.getLocations(type)
   if (results.length === 0) { ctx.throw(404) }
-
+  console.log('HERE')
+  console.log(results)
   // Add row metadata as geojson properties
   const locations = results.map((row) => {
     let geojson = JSON.parse(row.st_asgeojson)
@@ -103,6 +104,9 @@ router.get('/kingdoms/:id/castles', idValidator, async ctx => {
 router.get('/episodes/:season/:num', async ctx => {
   const seasonNum = ctx.params.season
   const episodeNum = ctx.params.num
+  if (seasonNum == 7 && episodeNum > 7) {
+    ctx.throw(404);
+  }
   const result = await database.getEpisode(seasonNum, episodeNum)
   ctx.body = result || ctx.throw(404)
 })

@@ -160,7 +160,7 @@ module.exports = {
       params.push('$' + i);
     }
     summaryQuery = `
-      SELECT *
+      SELECT ST_AsGeoJSON(geog), name, type, gid, summary, url
       FROM locations
       WHERE name IN (` + params.join(',') + `);`;
     result = await client.query(summaryQuery, allLocations);
@@ -188,7 +188,7 @@ module.exports = {
             supers[superLoc].characters = Array.from(new Set([...missingChars, ...supers[superLoc].characters]));
           } else {
             summaryQuery = `
-              SELECT *
+              SELECT ST_AsGeoJSON(geog), name, type, gid, summary, url
               FROM locations
               WHERE name = $1;`;
             superResult = await client.query(summaryQuery, [ superLoc ]);
@@ -211,6 +211,7 @@ module.exports = {
       let superChars = supers[i].characters.map((char) => {
         return allCharacterData[char];
       });
+			supers[i].characters = superChars;
       data.locations.push(supers[i]);
     }
 
@@ -221,6 +222,12 @@ module.exports = {
       });
       data.locations.push(row);
     }
+
+    data.locations = data.locations.map((loc) => {
+      let geojson = JSON.parse(loc.st_asgeojson);
+      loc.st_asgeojson = geojson;
+      return loc;
+    });
 
     return data;
   }
