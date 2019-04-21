@@ -50,61 +50,53 @@ export class InfoPanel extends Component {
   }
 
   updateEpisode() {
-    const episodeNum = parseInt(this.refs.controlEpisode.value);
-    this.episode = episodeNum;
+    this.episode = parseInt(this.refs.controlEpisode.value);
     this.triggerEvent('setEpisode', { season: this.season, episode: this.episode });
   }
 
-  /** Show info when a map item is selected */
-  // async showInfo (name, id, type) {
-  //   // Display location title
-  //   this.refs.title.innerHTML = `<h1>${name}</h1>`
+  // Show information when a location is selected
+  showInfo(locInfo) {
+    if (locInfo == null) { 
+      this.refs.title.innerHTML = "No Location Selected";
+      this.refs.content.innerHTML = "";
+      return;
+    }
 
-  //   // Download and display information, based on location type
-  //   this.refs.content.innerHTML = (type === 'kingdom')
-  //     ? await this.getKingdomDetailHtml(id)
-  //     : await this.getLocationDetailHtml(id, type)
-  // }
+    this.refs.title.innerHTML = locInfo.name;
 
-  /** Create kingdom detail HTML string */
-  // async getKingdomDetailHtml (id) {
-  //   // Get kingdom metadata
-  //   let { kingdomSize, castleCount, kingdomSummary } = await this.api.getAllKingdomDetails(id)
+    const characterHTML = this.getCharacterHTML(locInfo.characters);
 
-  //   // Convert size to an easily readable string
-  //   kingdomSize = kingdomSize.toLocaleString(undefined, { maximumFractionDigits: 0 })
+    this.refs.content.innerHTML = `
+      <h2>Characters</h2>
+      ${characterHTML}
+      <h2>Summary of Location</h2>
+      <div>${locInfo.summary}</div>
+    `;
+  }
 
-  //   // Format summary HTML
-  //   const summaryHTML = this.getInfoSummaryHtml(kingdomSummary)
+  getCharacterHTML(characterInfo) {
+    const majorChars = [];
+    const minorChars = [];
 
-  //   // Return filled HTML template
-  //   return `
-  //     <h3>KINGDOM</h3>
-  //     <div>Size Estimate - ${kingdomSize} km<sup>2</sup></div>
-  //     <div>Number of Castles - ${castleCount}</div>
-  //     ${summaryHTML}
-  //     `
-  // }
+    characterInfo.forEach(c => {
+      if (c.image) {
+        majorChars.push(`
+          <div class="character">
+            <img src=${c.image} />
+            <div>${c.name}</div>
+          </div>
+        `);
+      } else {
+        minorChars.push(`
+          <div>${c.name}</div>
+        `);
+      }
+    });
 
-  /** Create location detail HTML string */
-  // async getLocationDetailHtml (id, type) {
-  //   // Get location metadata
-  //   const locationInfo = await this.api.getLocationSummary(id)
-
-  //   // Format summary template
-  //   const summaryHTML = this.getInfoSummaryHtml(locationInfo)
-
-  //   // Return filled HTML template
-  //   return `
-  //     <h3>${type.toUpperCase()}</h3>
-  //     ${summaryHTML}`
-  // }
-
-  /** Format location summary HTML template */
-  // getInfoSummaryHtml (info) {
-  //   return `
-  //     <h3>Summary</h3>
-  //     <div>${info.summary}</div>
-  //     <div><a href="${info.url}" target="_blank" rel="noopener">Read More...</a></div>`
-  // }
+    return `
+      <div class="characters-major">${majorChars.join("")}</div>
+      <h3>Other Characters</h3>
+      <div class="characters-minor">${minorChars.join("")}</div>
+    `;
+  }
 }

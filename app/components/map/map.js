@@ -66,16 +66,16 @@ export class Map extends Component {
     });
 
     this.map.addLayer(this.curLayer);
+    this.triggerEvent('locationSelected', { info: null });
   }
 
   /** Assign Popup and click listener for each location point */
   onEachLocation (feature, layer) {
     // Bind popup to marker
     layer.bindPopup(feature.properties.name, { closeButton: false })
-    // layer.on({ click: (e) => {
-    //   const { name, id, type } = feature.properties
-    //   this.triggerEvent('locationSelected', { name, id, type })
-    // }})
+    layer.on({ click: () => {
+      this.triggerEvent('locationSelected', { info: feature.properties });
+    }})
   }
 
   /** Trigger "click" on layer with provided name */

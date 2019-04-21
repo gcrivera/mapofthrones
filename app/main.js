@@ -19,7 +19,6 @@ class ViewController {
     //   this.api = new ApiService('https://api.atlasofthrones.com/')
     // }
 
-    // this.locationPointTypes = [ 'castle', 'city', 'town', 'ruin', 'region', 'landmark' ]
     this.initializeComponents();
   }
 
@@ -35,47 +34,16 @@ class ViewController {
     });
 
     // Initialize Map
-    // this.mapComponent = new Map('map-placeholder', {
-    //   events: { locationSelected: event => {
-    //     // Show data in infoComponent on "locationSelected" event
-    //     const { name, id, type } = event.detail
-    //     this.infoComponent.showInfo(name, id, type)
-    //   }}
-    // })
     this.mapComponent = new Map('map-placeholder', {
-      data: { apiService: this.api }
+      data: { apiService: this.api },
+      events: { locationSelected: event => {
+        const { info } = event.detail;
+        this.infoComponent.showInfo(info);
+      }}
     });
 
     this.mapComponent.displayEpisode(1,1);
   }
-
-  /** Load map data from the API */
-  // async loadMapData () {
-
-  //   // Download kingdom boundaries
-  //   const kingdomsGeojson = await this.api.getKingdoms()
-
-  //   // Add boundary data to search service
-  //   this.searchService.addGeoJsonItems(kingdomsGeojson, 'kingdom')
-
-  //   // Add data to map
-  //   this.mapComponent.addKingdomGeojson(kingdomsGeojson)
-
-  //   // Show kingdom boundaries
-  //   this.layerPanel.toggleMapLayer('kingdom')
-
-  //   // Download location point geodata
-  //   for (let locationType of this.locationPointTypes) {
-  //     // Download location type GeoJSON
-  //     const geojson = await this.api.getLocations(locationType)
-
-  //     // Add location data to search service
-  //     this.searchService.addGeoJsonItems(geojson, locationType)
-
-  //     // Add data to map
-  //     this.mapComponent.addLocationGeojson(locationType, geojson, this.getIconUrl(locationType))
-  //   }
-  // }
 }
 
 window.ctrl = new ViewController()

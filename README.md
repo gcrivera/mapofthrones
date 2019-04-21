@@ -4,10 +4,10 @@
 How do characters move and interact throughout Game of Thrones?
 
 ## MVP for Milestone
-1. Get map working (https://blog.patricktriest.com/game-of-thrones-map-node-postgres-redis/)
-2. Render pins on map (select characters - limit number)
-3. Changes pins by stepping through episodes
-4. Hover over location for more info on characters & on location
+1. ~~Get map working (https://blog.patricktriest.com/game-of-thrones-map-node-postgres-redis/)~~
+2. ~~Render pins on map (select characters - limit number)~~
+3. ~~Changes pins by stepping through episodes~~
+4. ~~Click location for more info on characters & on location~~
 5. Click on character - what info to show?
 
 Edge case - indicate if character in multiple locations in episode
