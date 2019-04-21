@@ -13,8 +13,9 @@ export class InfoPanel extends Component {
    */
   constructor (placeholderId, props) {
     super(placeholderId, props, template)
-    this.api = props.data.apiService
-
+    // this.api = props.data.apiService
+    this.season = 1;
+    this.episode = 1;
     // Initialize season & episode selects
     this.setOptions("control-season", 7);
     this.setOptions("control-episode", 10);

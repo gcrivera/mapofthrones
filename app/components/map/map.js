@@ -38,7 +38,7 @@ export class Map extends Component {
   // Add locations of given episode to map
   async displayEpisode(seasonNum, episodeNum) {
     const episodeInfo = await this.api.getEpisode(seasonNum, episodeNum);
-
+    console.log(episodeInfo);
     const geoJSONLocs = episodeInfo.locations.map(loc => {
       return { 
         type: loc.st_asgeojson.type, 
@@ -51,28 +51,27 @@ export class Map extends Component {
       // Show marker on location
       pointToLayer: (feature, latlng) => {
         return L.marker(latlng, {
-          // TODO hard coded iconURL
           icon: L.icon({ 
-            iconUrl: "http://localhost:8080/images/locationPinDark.png", 
+            iconUrl: "./images/locationPinDark.png", 
             iconSize: [ 16, 24 ] 
           }),
           title: feature.properties.name })
       },
-      // onEachFeature: this.onEachLocation.bind(this)
+      onEachFeature: this.onEachLocation.bind(this)
     });
 
     this.map.addLayer(curLayer);
   }
 
   /** Assign Popup and click listener for each location point */
-  // onEachLocation (feature, layer) {
-  //   // Bind popup to marker
-  //   layer.bindPopup(feature.properties.name, { closeButton: false })
-  //   layer.on({ click: (e) => {
-  //     const { name, id, type } = feature.properties
-  //     this.triggerEvent('locationSelected', { name, id, type })
-  //   }})
-  // }
+  onEachLocation (feature, layer) {
+    // Bind popup to marker
+    layer.bindPopup(feature.properties.name, { closeButton: false })
+    layer.on({ click: (e) => {
+      const { name, id, type } = feature.properties
+      this.triggerEvent('locationSelected', { name, id, type })
+    }})
+  }
 
   /** Trigger "click" on layer with provided name */
   // selectLocation (id, layerName) {
