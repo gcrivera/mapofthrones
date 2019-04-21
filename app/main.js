@@ -4,7 +4,6 @@ import template from './main.html';
 import { ApiService } from './services/api'
 import { InfoPanel } from './components/info-panel/info-panel';
 import { Map } from './components/map/map';
-// import { LayerPanel } from './components/layer-panel/layer-panel'
 
 /** Main UI Controller Class */
 class ViewController {
@@ -48,15 +47,6 @@ class ViewController {
     });
 
     this.mapComponent.displayEpisode(1,1);
-
-  //   // Initialize Layer Toggle Panel
-  //   this.layerPanel = new LayerPanel('layer-panel-placeholder', {
-  //     data: { layerNames: ['kingdom', ...this.locationPointTypes] },
-  //     events: { layerToggle:
-  //       // Toggle layer in map controller on "layerToggle" event
-  //       event => { this.mapComponent.toggleLayer(event.detail) }
-  //     }
-  //   })
   }
 
   /** Load map data from the API */
@@ -85,11 +75,6 @@ class ViewController {
   //     // Add data to map
   //     this.mapComponent.addLocationGeojson(locationType, geojson, this.getIconUrl(locationType))
   //   }
-  // }
-
-  /** Format icon url for layer type  */
-  // getIconUrl (layerName) {
-  //   return `https://cdn.patricktriest.com/atlas-of-thrones/icons/${layerName}.svg`
   // }
 }
 
