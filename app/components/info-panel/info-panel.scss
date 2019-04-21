@@ -36,10 +36,16 @@
       width: 50px;
       padding: 5px;
       text-align: center;
+      cursor: pointer;
+    }
+
+    .character:hover {
+      background-color: rgba(0, 0, 0, 0.2);
     }
 
     img {
       max-height: 50px;
+      max-width: 50px;
       border-radius: 50%;
     }
   }

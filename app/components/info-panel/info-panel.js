@@ -55,7 +55,7 @@ export class InfoPanel extends Component {
   }
 
   // Show information when a location is selected
-  showInfo(locInfo) {
+  showLocInfo(locInfo) {
     if (locInfo == null) { 
       this.refs.title.innerHTML = "No Location Selected";
       this.refs.content.innerHTML = "";
@@ -63,40 +63,64 @@ export class InfoPanel extends Component {
     }
 
     this.refs.title.innerHTML = locInfo.name;
+    
+    // Reset content before adding;
+    this.refs.content.innerHTML = "";
+
+    const charHeader = document.createElement("h2");
+    charHeader.innerText = "Characters";
+    this.refs.content.appendChild(charHeader);
 
     const characterHTML = this.getCharacterHTML(locInfo.characters);
+    characterHTML.forEach(object => this.refs.content.appendChild(object));
 
-    this.refs.content.innerHTML = `
-      <h2>Characters</h2>
-      ${characterHTML}
-      <h2>Summary of Location</h2>
-      <div>${locInfo.summary}</div>
-    `;
+    const summaryHeader = document.createElement("h2");
+    summaryHeader.innerText = "Summary of Location";
+    this.refs.content.appendChild(summaryHeader);
+
+    const summaryContent = document.createElement("div");
+    summaryContent.innerText = locInfo.summary;
+    this.refs.content.appendChild(summaryContent);
+  }
+
+  showCharInfo(charInfo) {
+    this.refs.title.innerHTML = charInfo.name;
+    this.refs.content.innerHTML = charInfo.name;
+    console.log(charInfo);
   }
 
   getCharacterHTML(characterInfo) {
-    const majorChars = [];
-    const minorChars = [];
+    const majorCharDiv = document.createElement("div");
+    majorCharDiv.setAttribute("class", "characters-major");
+
+    const otherCharHeader = document.createElement("h3");
+    otherCharHeader.innerText = "Other Characters";
+
+    const minorCharDiv = document.createElement("div");
+    minorCharDiv.setAttribute("class", "characters-minor");
 
     characterInfo.forEach(c => {
       if (c.image) {
-        majorChars.push(`
-          <div class="character">
-            <img src=${c.image} />
-            <div>${c.name}</div>
-          </div>
-        `);
+        const charDiv = document.createElement("div");
+        charDiv.setAttribute("class", "character");
+        charDiv.onclick = () => { this.showCharInfo(c); };
+        
+        const charImg = document.createElement("img");
+        charImg.setAttribute("src", c.image);
+        charDiv.appendChild(charImg);
+
+        const nameDiv = document.createElement("div");
+        nameDiv.innerText = c.name;
+        charDiv.appendChild(nameDiv);
+
+        majorCharDiv.appendChild(charDiv);
       } else {
-        minorChars.push(`
-          <div>${c.name}</div>
-        `);
+        const charDiv = document.createElement("div");
+        charDiv.innerText = c.name;
+        minorCharDiv.appendChild(charDiv);
       }
     });
 
-    return `
-      <div class="characters-major">${majorChars.join("")}</div>
-      <h3>Other Characters</h3>
-      <div class="characters-minor">${minorChars.join("")}</div>
-    `;
+    return [majorCharDiv, otherCharHeader, minorCharDiv];
   }
 }
