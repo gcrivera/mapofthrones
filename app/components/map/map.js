@@ -38,7 +38,7 @@ export class Map extends Component {
   // Add locations of given episode to map
   async displayEpisode(seasonNum, episodeNum) {
     const episodeInfo = await this.api.getEpisode(seasonNum, episodeNum);
-    console.log(episodeInfo);
+
     const geoJSONLocs = episodeInfo.locations.map(loc => {
       return { 
         type: loc.st_asgeojson.type, 
