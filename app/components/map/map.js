@@ -18,6 +18,7 @@ export class Map extends Component {
     super(mapPlaceholderId, props, template);
     this.api = props.data.apiService;
     this.curLayer = null;
+    this.activeLocation = null;
 
     // Initialize Leaflet map
     this.map = L.map(this.refs.mapContainer, {
@@ -55,12 +56,11 @@ export class Map extends Component {
     this.curLayer = L.geoJSON(geoJSONLocs, {
       // Show marker on location
       pointToLayer: (feature, latlng) => {
+        const icon = this.getIcon(feature.properties.gid);
         return L.marker(latlng, {
-          icon: L.icon({ 
-            iconUrl: "./images/locationPinDark.png", 
-            iconSize: [ 16, 24 ] 
-          }),
-          title: feature.properties.name })
+          icon,
+          title: feature.properties.name 
+        });
       },
       onEachFeature: this.onEachLocation.bind(this)
     });
@@ -73,28 +73,37 @@ export class Map extends Component {
   onEachLocation (feature, layer) {
     // Bind popup to marker
     layer.bindPopup(feature.properties.name, { closeButton: false })
-    layer.on({ click: () => {
-      this.triggerEvent('locationSelected', { info: feature.properties });
-    }})
+    layer.on({ 
+      click: () => {
+        this.triggerEvent('locationSelected', { info: feature.properties });
+        this.setActiveLocation(feature.properties.gid);
+        layer.openPopup();
+      },
+      mouseover: () => {
+        layer.openPopup();
+      }
+    });
   }
 
-  /** Trigger "click" on layer with provided name */
-  // selectLocation (id, layerName) {
-  //   // Find selected layer
-  //   const geojsonLayer = this.layers[layerName]
-  //   const sublayers = geojsonLayer.getLayers()
-  //   const selectedSublayer = sublayers.find(layer => {
-  //     return layer.feature.geometry.properties.id === id
-  //   })
+  getIcon(locID) {
+    const iconUrl = '<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="16px" height="24px" viewBox="0 0 848.000000 1280.000000" preserveAspectRatio="xMidYMid meet"><g transform="translate(0.000000,1280.000000) scale(0.100000,-0.100000)" class="map-icon" id={locID} stroke="none"><path d="M3935 12790 c-860 -64 -1638 -346 -2279 -827 -334 -251 -709 -621 -943 -931 -406 -539 -624 -1118 -695 -1847 -19 -199 -16 -700 5 -863 75 -567 272 -1057 740 -1837 235 -391 381 -614 1177 -1805 498 -744 581 -872 738 -1141 420 -719 756 -1422 992 -2074 114 -317 171 -504 325 -1075 36 -135 75 -264 86 -287 49 -101 153 -134 237 -73 78 57 115 146 247 597 250 854 395 1244 689 1848 352 723 750 1382 1591 2635 624 930 973 1506 1259 2078 168 335 255 565 300 794 92 461 99 1152 16 1579 -112 579 -379 1140 -788 1656 -117 148 -448 476 -611 606 -669 534 -1458 857 -2321 953 -165 18 -601 26 -765 14z"/></g></svg>';
 
-  //   // Zoom map to selected layer
-  //   if (selectedSublayer.feature.geometry.type === 'Point') {
-  //     this.map.flyTo(selectedSublayer.getLatLng(), 5)
-  //   } else {
-  //     this.map.flyToBounds(selectedSublayer.getBounds(), 5)
-  //   }
+    return L.divIcon({
+      className: "",
+      html: L.Util.template(iconUrl, { locID: `location-${locID}` }),
+      iconAnchor: [8, 24]
+    });
+  }
 
-  //   // Fire click event
-  //   selectedSublayer.fireEvent('click')
-  // }
+  setActiveLocation(locID) {
+    if (this.activeLocation) {
+      let activeElt = document.getElementById(`location-${this.activeLocation}`);
+      activeElt.classList.remove("active");
+    }
+    if (locID) {
+      let activeElt = document.getElementById(`location-${locID}`);
+      activeElt.classList.add("active");
+    }
+    this.activeLocation = locID;
+  }
 }
