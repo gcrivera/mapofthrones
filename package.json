@@ -7,13 +7,8 @@
     "start": "node index.js",
     "serve": "webpack --watch & http-server ./public",
     "dev": "NODE_ENV=local npm start & npm run serve",
-    "build": "NODE_ENV=production webpack",
+    "build": "NODE_ENV=production webpack & http-server ./public",
     "deploy-frontend": "npm run build && bash deploy.sh"
-  },
-  "author": {
-    "name": "Patrick Triest",
-    "email": "patrick.triest@gmail.com",
-    "url": "https://blog.patricktriest.com"
   },
   "repository": {
     "type": "git",
