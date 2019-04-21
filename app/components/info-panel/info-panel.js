@@ -92,7 +92,28 @@ export class InfoPanel extends Component {
 
   showCharInfo(charInfo) {
     this.refs.title.innerHTML = charInfo.name;
-    this.refs.content.innerHTML = charInfo.name;
+    this.refs.content.innerHTML = "";
+
+    // const charContent = document.createElement("div");
+    const charImg = document.createElement("img");
+    charImg.setAttribute("src", charInfo.image);
+    const charDiv = document.createElement("div");
+
+    const charHouse = document.createElement("h2");
+    charHouse.innerText = "House Allegiances: " + charInfo.houseallegiance;
+    const charOrigin = document.createElement("h2");
+    charOrigin.innerText = "Origin: " + charInfo.origin;
+    const charCulture = document.createElement("h2");
+    charCulture.innerText = "Culture: " + charInfo.culture;
+    const charReligion = document.createElement("h2");
+    charReligion.innerText = "Religion: " + charInfo.religion;
+    charDiv.appendChild(charHouse);
+    charDiv.appendChild(charOrigin);
+    charDiv.appendChild(charCulture);
+    charDiv.appendChild(charReligion);
+
+    this.refs.content.appendChild(charImg);
+    this.refs.content.appendChild(charDiv);
     console.log(charInfo);
   }
 
@@ -114,6 +135,7 @@ export class InfoPanel extends Component {
 
         const charImg = document.createElement("img");
         charImg.setAttribute("src", c.image);
+        charImg.setAttribute("class", "thumbnail")
         charDiv.appendChild(charImg);
 
         const nameDiv = document.createElement("div");
