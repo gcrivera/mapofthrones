@@ -3,7 +3,7 @@
  */
 
 const Redis = require('ioredis')
-const redis = new Redis(process.env.REDIS_PORT, process.env.REDIS_HOST)
+const redis = new Redis(process.env.REDIS_URL)
 
 module.exports = {
   /** Koa middleware function to check cache before continuing to any endpoint handlers */
