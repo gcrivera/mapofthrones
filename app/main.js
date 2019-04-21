@@ -12,12 +12,11 @@ class ViewController {
     document.getElementById('app').outerHTML = template;
 
     // Initialize API service
-    this.api = new ApiService('http://localhost:5000/') // TODO
-    // if (window.location.hostname === 'localhost') {
-    //   this.api = new ApiService('http://localhost:5000/')
-    // } else {
-    //   this.api = new ApiService('https://api.atlasofthrones.com/')
-    // }
+    if (window.location.hostname === 'localhost') {
+      this.api = new ApiService('http://localhost:5000/')
+    } else {
+      this.api = new ApiService('https://mapofthrones.herokuapp.com/')
+    }
 
     this.initializeComponents();
   }

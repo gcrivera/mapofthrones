@@ -14,7 +14,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: scenes; Type: TABLE; Schema: public; Owner: ntmuowfdmifwtt
+-- Name: episodes; Type: TABLE; Schema: public; Owner: ntmuowfdmifwtt
 --
 
 CREATE TABLE episodes (
@@ -210,7 +210,6 @@ COPY scenes (seasonnum, episodenum, scenestart, sceneend, location, sublocation,
 1	3	0:50:41	0:51:30	The Dothraki Sea	Dothraki Camp	{"characters": [{"name": "Drogon", "born": false}, {"name": "Rhaegal", "born": false}, {"name": "Viserion", "born": false}, {"name": "Daenerys Targaryen", "title": "Khaleesi", "sex": {"with": ["Khal Drogo"], "when": "past", "type": "love"}}, {"name": "Khal Drogo", "title": "Khal", "sex": {"with": ["Daenerys Targaryen"], "when": "past", "type": "love"}}]}
 1	3	0:51:30	0:52:32	The Wall	Castle Black	{"characters": [{"name": "Tyrion Lannister"}, {"name": "Jon Snow"}]}
 1	3	0:52:32	0:56:04	The Crownlands	King's Landing	{"characters": [{"name": "Arya Stark"}, {"name": "Syrio Forel"}, {"name": "Eddard Stark", "title": "Hand"}]}
-1	4	0:01:47	0:02:36	The North	Winterfell	{"characters": [{"name": "Three-Eyed Raven"}, {"name": "Bran Stark"}]}
 1	4	0:02:36	0:03:30	The North	Winterfell	{"characters": [{"name": "Bran Stark"}, {"name": "Summer"}, {"name": "Old Nan"}, {"name": "Theon Greyjoy"}, {"name": "Hodor"}]}
 1	4	0:03:30	0:05:13	The North	Winterfell	{"characters": [{"name": "Tyrion Lannister"}, {"name": "Robb Stark"}, {"name": "Maester Luwin"}, {"name": "Yoren"}, {"name": "Grey Wind"}, {"name": "Hodor"}, {"name": "Bran Stark"}, {"name": "Theon Greyjoy"}]}
 1	4	0:05:13	0:06:40	The North	Winterfell	{"characters": [{"name": "Theon Greyjoy"}, {"name": "Tyrion Lannister"}]}
@@ -268,7 +267,6 @@ COPY scenes (seasonnum, episodenum, scenestart, sceneend, location, sublocation,
 1	5	0:49:53	0:53:06	The Crownlands	King's Landing	{"characters": [{"name": "Eddard Stark"}, {"name": "Jory Cassel", "alive": false, "mannerOfDeath": "Eye stab", "killedBy": ["Jaime Lannister"]}, {"name": "Jaime Lannister"}, {"name": "Petyr Baelish"}]}
 1	6	0:01:53	0:06:22	The Crownlands	King's Landing	{"characters": [{"name": "Eddard Stark", "title": "Hand"}, {"name": "Cersei Lannister"}, {"name": "Robert Baratheon", "title": "King"}]}
 1	6	0:06:22	0:07:50	Vaes Dothrak	NULL	{"characters": [{"name": "Daenerys Targaryen", "title": "Khaleesi"}, {"name": "Drogon", "born": false}, {"name": "Rhaegal", "born": false}, {"name": "Viserion", "born": false}, {"name": "Irri"}]}
-1	6	0:07:50	0:08:25	The North	Winterfell	{"characters": [{"name": "Three-Eyed Raven"}, {"name": "Bran Stark"}]}
 1	6	0:08:25	0:08:36	The North	Winterfell	{"characters": [{"name": "Bran Stark"}, {"name": "Hodor"}]}
 1	6	0:08:36	0:09:42	The North	The Wolfswood	{"characters": [{"name": "Bran Stark"}, {"name": "Theon Greyjoy"}, {"name": "Robb Stark"}]}
 1	6	0:09:42	0:13:09	The North	The Wolfswood	{"characters": [{"name": "Bran Stark"}, {"name": "Osha"}, {"name": "Stiv", "alive": false, "mannerOfDeath": "Arrow", "killedBy": ["Theon Greyjoy"]}, {"name": "Wallen", "alive": false, "mannerOfDeath": "Throat slash", "killedBy": ["Robb Stark"]}, {"name": "Robb Stark"}, {"name": "Theon Greyjoy"}]}
@@ -374,7 +372,6 @@ COPY scenes (seasonnum, episodenum, scenestart, sceneend, location, sublocation,
 1	9	0:50:24	0:55:54	The Crownlands	King's Landing	{"characters": [{"name": "Arya Stark", "weapon": [{"action": "has", "name": "Needle"}]}, {"name": "Eddard Stark", "title": "Hand", "alive": false, "mannerOfDeath": "Decapitation", "killedBy": ["Ilyn Payne"]}, {"name": "Yoren"}, {"name": "Sansa Stark"}, {"name": "Petyr Baelish"}, {"name": "Cersei Lannister"}, {"name": "Joffrey Baratheon", "title": "King"}, {"name": "Grand Maester Pycelle"}, {"name": "Lord Varys"}, {"name": "Sandor Clegane"}, {"name": "Ilyn Payne", "weapon": [{"action": "has", "name": "Ice"}]}]}
 1	10	0:02:17	0:03:03	The Crownlands	King's Landing	{"characters": [{"name": "Sandor Clegane"}, {"name": "Ilyn Payne", "weapon": [{"action": "has", "name": "Ice"}]}, {"name": "Eddard Stark", "alive": false}, {"name": "Arya Stark"}, {"name": "Yoren"}, {"name": "Sansa Stark"}, {"name": "Lord Varys"}]}
 1	10	0:03:03	0:03:25	The Crownlands	King's Landing	{"characters": [{"name": "Arya Stark"}, {"name": "Yoren"}]}
-1	10	0:03:25	0:03:53	The North	Winterfell	{"characters": [{"name": "Bran Stark"}, {"name": "Three-Eyed Raven"}]}
 1	10	0:03:53	0:04:24	The North	Winterfell	{"characters": [{"name": "Bran Stark"}, {"name": "Osha"}, {"name": "Hodor"}]}
 1	10	0:04:24	0:05:40	The North	Winterfell	{"characters": [{"name": "Bran Stark"}, {"name": "Osha"}, {"name": "Shaggydog"}, {"name": "Rickon Stark"}]}
 1	10	0:05:40	0:06:07	The North	Winterfell	{"characters": [{"name": "Bran Stark"}, {"name": "Osha"}, {"name": "Maester Luwin"}]}
@@ -857,9 +854,6 @@ COPY scenes (seasonnum, episodenum, scenestart, sceneend, location, sublocation,
 2	10	0:42:29	0:43:08	The North	Winterfell	{"characters": [{"name": "Maester Luwin", "alive": false, "killedBy": ["Osha"]}, {"name": "Osha"}]}
 2	10	0:43:08	0:43:35	The North	Winterfell	{"characters": [{"name": "Shaggydog"}, {"name": "Summer"}, {"name": "Osha"}, {"name": "Hodor"}, {"name": "Rickon Stark"}, {"name": "Bran Stark"}]}
 2	10	0:43:35	0:44:28	Qarth	NULL	{"characters": [{"name": "Daenerys Targaryen", "title": "Khaleesi"}]}
-2	10	0:44:28	0:46:11	Qarth	King's Landing	{"characters": [{"name": "Daenerys Targaryen", "title": "Khaleesi"}]}
-2	10	0:46:11	0:46:51	Qarth	The Wall	{"characters": [{"name": "Daenerys Targaryen", "title": "Khaleesi"}]}
-2	10	0:46:51	0:49:31	Qarth	Vaes Dothrak	{"characters": [{"name": "Daenerys Targaryen", "title": "Khaleesi"}, {"name": "Khal Drogo", "title": "Khal", "alive": false}, {"name": "Rhaego"}]}
 2	10	0:49:31	0:51:47	Qarth	NULL	{"characters": [{"name": "Daenerys Targaryen", "title": "Khaleesi"}, {"name": "Drogon"}, {"name": "Viserion"}, {"name": "Rhaegal"}, {"name": "Pyat Pree", "alive": false, "mannerOfDeath": "Dragon", "killedBy": ["Daenerys Targaryen"]}]}
 2	10	0:51:47	0:54:51	North of the Wall	Frostfang Mountains	{"characters": [{"name": "Jon Snow", "weapon": [{"action": "receives", "name": "Longclaw"}]}, {"name": "Ygritte", "weapon": [{"action": "gives", "name": "Longclaw"}]}, {"name": "Qhorin Halfhand", "alive": false, "mannerOfDeath": "Chest stab", "killedBy": ["Jon Snow"]}, {"name": "Rattleshirt", "weapon": [{"action": "takes", "name": "Longclaw"}]}]}
 2	10	0:54:51	0:55:31	North of the Wall	Frostfang Mountains	{"characters": [{"name": "Jon Snow"}, {"name": "Ygritte"}]}
@@ -922,10 +916,6 @@ COPY scenes (seasonnum, episodenum, scenestart, sceneend, location, sublocation,
 3	1	0:46:04	0:50:09	Astapor	NULL	{"characters": [{"name": "Daenerys Targaryen", "title": "Khaleesi"}, {"name": "Kraznys mo Nakloz"}, {"name": "Jorah Mormont"}, {"name": "Missandei"}, {"name": "Unsullied"}]}
 3	1	0:50:09	0:51:57	Astapor	NULL	{"characters": [{"name": "Daenerys Targaryen", "title": "Khaleesi"}, {"name": "Jorah Mormont"}, {"name": "Warlock"}, {"name": "Barristan Selmy"}]}
 3	1	0:51:57	0:53:06	Astapor	NULL	{"characters": [{"name": "Daenerys Targaryen", "title": "Khaleesi"}, {"name": "Jorah Mormont"}, {"name": "Barristan Selmy"}]}
-3	2	0:01:54	0:02:42	The North	Outside Winterfell	{"characters": [{"name": "Bran Stark"}, {"name": "Three-Eyed Raven"}]}
-3	2	0:02:42	0:02:59	The North	Outside Winterfell	{"characters": [{"name": "Bran Stark"}, {"name": "Three-Eyed Raven"}, {"name": "Jon Snow"}, {"name": "Robb Stark"}]}
-3	2	0:02:59	0:03:07	The North	Outside Winterfell	{"characters": [{"name": "Bran Stark"}]}
-3	2	0:03:07	0:03:20	The North	Outside Winterfell	{"characters": [{"name": "Bran Stark"}, {"name": "Jojen Reed"}, {"name": "Three-Eyed Raven"}]}
 3	2	0:03:20	0:04:28	The North	North to the Wall	{"characters": [{"name": "Bran Stark"}, {"name": "Rickon Stark"}, {"name": "Shaggydog"}, {"name": "Summer"}, {"name": "Hodor"}, {"name": "Osha"}]}
 3	2	0:04:28	0:05:05	The Riverlands	Harrenhal	{"characters": [{"name": "Robb Stark", "title": "King"}, {"name": "Talisa Maegyr"}]}
 3	2	0:05:05	0:05:28	The Riverlands	Harrenhal	{"characters": [{"name": "Robb Stark", "title": "King"}, {"name": "Talisa Maegyr"}, {"name": "Roose Bolton"}]}
@@ -1019,8 +1009,6 @@ COPY scenes (seasonnum, episodenum, scenestart, sceneend, location, sublocation,
 3	4	0:08:45	0:10:02	North of the Wall	Craster's Keep	{"characters": [{"name": "Grenn"}, {"name": "Eddison Tollett"}, {"name": "Rast"}]}
 3	4	0:10:02	0:10:11	North of the Wall	Craster's Keep	{"characters": [{"name": "Gilly"}, {"name": "Baby Sam"}]}
 3	4	0:10:11	0:11:09	North of the Wall	Craster's Keep	{"characters": [{"name": "Gilly"}, {"name": "Baby Sam"}, {"name": "Samwell Tarly"}]}
-3	4	0:11:09	0:11:58	The North	North to the Wall	{"characters": [{"name": "Bran Stark"}, {"name": "Jojen Reed"}]}
-3	4	0:11:58	0:12:14	The North	North to the Wall	{"characters": [{"name": "Bran Stark"}, {"name": "Catelyn Stark"}]}
 3	4	0:12:14	0:12:28	The North	North to the Wall	{"characters": [{"name": "Bran Stark"}, {"name": "Jojen Reed"}]}
 3	4	0:12:28	0:14:17	The Crownlands	King's Landing	{"characters": [{"name": "Lord Varys"}, {"name": "Ros"}]}
 3	4	0:14:17	0:14:34	The Crownlands	King's Landing	{"characters": [{"name": "Joffrey Baratheon", "title": "King"}, {"name": "Margaery Tyrell"}]}
@@ -1608,7 +1596,6 @@ COPY scenes (seasonnum, episodenum, scenestart, sceneend, location, sublocation,
 4	5	0:35:54	0:36:18	North of the Wall	Craster's Keep	{"characters": [{"name": "Rast"}, {"name": "Locke"}]}
 4	5	0:36:18	0:36:57	North of the Wall	Craster's Keep	{"characters": [{"name": "Locke"}]}
 4	5	0:36:57	0:37:57	North of the Wall	Craster's Keep	{"characters": [{"name": "Meera Reed"}, {"name": "Bran Stark"}, {"name": "Jojen Reed"}, {"name": "Hodor"}]}
-4	5	0:37:57	0:38:23	North of the Wall	Craster's Keep	{"characters": [{"name": "Bran Stark"}, {"name": "Jojen Reed"}]}
 4	5	0:38:23	0:39:09	North of the Wall	Craster's Keep	{"characters": [{"name": "Bran Stark"}, {"name": "Jojen Reed"}, {"name": "Meera Reed"}]}
 4	5	0:39:09	0:40:09	North of the Wall	Craster's Keep	{"characters": [{"name": "Jon Snow", "weapon": [{"action": "has", "name": "Longclaw"}]}, {"name": "Eddison Tollett"}, {"name": "Locke"}, {"name": "Grenn"}]}
 4	5	0:40:09	0:42:46	North of the Wall	Craster's Keep	{"characters": [{"name": "Karl Tanner"}, {"name": "Meera Reed"}, {"name": "Jojen Reed"}, {"name": "Bran Stark"}, {"name": "Hodor"}]}
@@ -2575,8 +2562,6 @@ COPY scenes (seasonnum, episodenum, scenestart, sceneend, location, sublocation,
 6	5	0:33:24	0:34:33	Meereen	NULL	{"characters": [{"name": "Tyrion Lannister"}, {"name": "Lord Varys"}, {"name": "Grey Worm"}, {"name": "Missandei"}]}
 6	5	0:34:33	0:39:07	Meereen	NULL	{"characters": [{"name": "Tyrion Lannister"}, {"name": "Lord Varys"}, {"name": "Zanrush"}, {"name": "Kinvara"}]}
 6	5	0:39:07	0:40:10	North of the Wall	The Three-Eyed Raven	{"characters": [{"name": "Bran Stark"}, {"name": "Hodor"}, {"name": "Three-Eyed Raven"}, {"name": "Meera Reed"}, {"name": "Summer"}]}
-6	5	0:40:10	0:42:04	North of the Wall	The Lands of Always Winter	{"characters": [{"name": "Bran Stark"}]}
-6	5	0:42:04	0:42:26	North of the Wall	The Lands of Always Winter	{"characters": [{"name": "Bran Stark"}, {"name": "The Night King", "title": "King"}, {"name": "White Walker"}]}
 6	5	0:42:26	0:43:14	North of the Wall	The Three-Eyed Raven	{"characters": [{"name": "Bran Stark"}, {"name": "Three-Eyed Raven"}, {"name": "Meera Reed"}, {"name": "Summer"}, {"name": "Leaf"}, {"name": "Hodor"}]}
 6	5	0:43:14	0:45:45	The Wall	Castle Black	{"characters": [{"name": "Sansa Stark"}, {"name": "Jon Snow", "weapon": [{"action": "has", "name": "Longclaw"}]}, {"name": "Eddison Tollett"}, {"name": "Brienne of Tarth"}, {"name": "Davos Seaworth"}, {"name": "Tormund Giantsbane"}, {"name": "Melisandre"}]}
 6	5	0:45:45	0:46:58	The Wall	Castle Black	{"characters": [{"name": "Sansa Stark"}, {"name": "Brienne of Tarth", "weapon": [{"action": "has", "name": "Oathkeeper"}]}]}
@@ -2947,7 +2932,6 @@ COPY scenes (seasonnum, episodenum, scenestart, sceneend, location, sublocation,
 7	1	0:03:54	0:04:20	The Riverlands	The Twins	{"characters": [{"name": "Walder Frey"}]}
 7	1	0:04:20	0:07:04	The Riverlands	The Twins	{"characters": [{"name": "Walder Frey"}, {"name": "Kitty Frey"}]}
 7	1	0:07:04	0:07:46	The Riverlands	The Twins	{"characters": [{"name": "Arya Stark"}, {"name": "Kitty Frey"}]}
-7	1	0:09:33	0:11:19	North of the Wall	South to the Wall	{"characters": [{"name": "The Night King", "title": "King"}, {"name": "Wight Walker"}, {"name": "Wun Wun Wight"}, {"name": "Mag the Mighty Wight"}]}
 7	1	0:11:19	0:11:33	North of the Wall	The Wall	{"characters": [{"name": "Bran Stark"}, {"name": "Meera Reed"}]}
 7	1	0:11:33	0:12:48	North of the Wall	The Wall	{"characters": [{"name": "Bran Stark"}, {"name": "Meera Reed"}, {"name": "Eddison Tollett"}]}
 7	1	0:12:48	0:13:00	North of the Wall	The Wall	{"characters": [{"name": "Eddison Tollett"}]}

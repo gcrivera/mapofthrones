@@ -4,6 +4,7 @@
 
 const Koa = require('koa')
 const cors = require('kcors')
+const serve = require('koa-static')
 const log = require('./logger')
 const api = require('./api')
 
@@ -41,6 +42,9 @@ app.use(async (ctx, next) => {
   // Allow browser to cache JSON responses
   ctx.set('Cache-Control', 'public, max-age=3600')
 })
+
+// Serve static files
+app.use(serve('./public'));
 
 // Mount routes
 app.use(api.routes(), api.allowedMethods())

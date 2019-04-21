@@ -48,19 +48,19 @@ Sandor Clegane	Unknown	Lannister Kingsguard, Clegane	Unknown	Unknown	http://img3
 Bronn	Unknown	Stokeworth	Unknown	Unknown	http://img2.wikia.nocookie.net/__cb20150422210515/gameofthrones/images/thumb/a/ab/Bronn_of_the_Blackwater_S5.jpg/250px-Bronn_of_the_Blackwater_S5.jpg
 Joffrey Baratheon	King's Landing	Lannister, Baratheon	Andal	Faith of the Seven	http://img1.wikia.nocookie.net/__cb20150314033448/gameofthrones/images/thumb/5/50/Joff.jpg/130px-0%2C800%2C15%2C723-Joff.jpg
 Barristan Selmy	Horn Hill, The Reach	Kingsguard, House Selmy, Targaryen	Unknown	Unknown	http://img1.wikia.nocookie.net/__cb20150504180820/gameofthrones/images/thumb/1/1f/Barristan_Selmy_Sons_of_the_Harpy.jpg/250px-Barristan_Selmy_Sons_of_the_Harpy.jpg
-Bran Stark	Winterfell	Stark	Northmen	Old Gods of the Forest	http://img1.wikia.nocookie.net/__cb20140428204046/gameofthrones/images/thumb/9/97/Bran_Stark_in_Oathkeeper.png/130px-0%2C1000%2C16%2C901-Bran_Stark_in_Oathkeeper.png
+Bran Stark	Winterfell	Stark	Northmen	Old Gods of the Forest	https://vignette.wikia.nocookie.net/gameofthrones/images/1/1c/Bran_S8_EP2infobox.jpg/revision/latest/scale-to-width-down/608?cb=20190418012948
 Catelyn Stark	Riverrun	Stark, Tully	Andal	Faith of the Seven	http://img2.wikia.nocookie.net/__cb20140515200719/gameofthrones/images/thumb/f/fb/Catelyn-Stark-Profile-HD.png/130px-0%2C544%2C9%2C490-Catelyn-Stark-Profile-HD.png
 Stannis Baratheon	Storm's End	Baratheon	Andal	R'hllor Lord of Light	http://img3.wikia.nocookie.net/__cb20150609005538/gameofthrones/images/thumb/7/7a/Stannis_S05E09.png/250px-Stannis_S05E09.png
 Missandei	Naath, Sothoryos	Targaryen	Unknown	Unknown	http://img3.wikia.nocookie.net/__cb20150219051321/gameofthrones/images/thumb/e/e2/MissS5.png/250px-MissS5.png
 Podrick Payne	Unknown	Lannister, Payne	Unknown	Unknown	http://img1.wikia.nocookie.net/__cb20140618215825/gameofthrones/images/thumb/6/6c/Podrick-Payne-Profile-HD.png/250px-Podrick-Payne-Profile-HD.png
 Robb Stark	Winterfell	Stark	Northmen	Old Gods of the Forest, Faith of the Seven	http://img2.wikia.nocookie.net/__cb20130413125346/gameofthrones/images/thumb/e/e9/Robb-3x03.jpg/130px-0%2C354%2C7%2C320-Robb-3x03.jpg
 Margaery Tyrell	Highgarden	Tyrell, Baratheon	Andal	Unknown	http://img4.wikia.nocookie.net/__cb20150416014255/gameofthrones/images/thumb/6/6e/MargS5.png/250px-MargS5.png
-Davos Seaworth	King's Landing	Seaworth, Baratheon	Unknown	Unknown	http://img2.wikia.nocookie.net/__cb20150419151136/gameofthrones/images/thumb/4/4b/Davos_Seaworth_%28S05E01%29.jpg/250px-Davos_Seaworth_%28S05E01%29.jpg
+Davos Seaworth	King's Landing	Seaworth, Baratheon	Unknown	Unknown	https://vignette.wikia.nocookie.net/gameofthrones/images/3/3a/Famtree-DavosSeaworth.png/revision/latest/scale-to-width-down/100?cb=20190309011957
 Shae	Lorath	Lannister	Unknown	Unknown	http://img1.wikia.nocookie.net/__cb20140505142823/gameofthrones/images/thumb/0/01/Shae_in_Two_Swords.png/130px-0%2C1888%2C37%2C1707-Shae_in_Two_Swords.png
 Melisandre	Asshai	Baratheon	Asshai'i	R'hllor Lord of Light	http://img2.wikia.nocookie.net/__cb20150604204859/gameofthrones/images/thumb/7/7c/Melisandre_The_Dance_of_Dragons.jpg/250px-Melisandre_The_Dance_of_Dragons.jpg
 Gilly	Beyond the Wall	Free Folk	Free Folk	Unknown	http://img2.wikia.nocookie.net/__cb20140615212038/gameofthrones/images/thumb/0/0e/Gilly.png/250px-Gilly.png
 Tommen Baratheon	King's Landing	Baratheon, Lannister	Andal	Faith of the Seven	http://img2.wikia.nocookie.net/__cb20150504161509/gameofthrones/images/thumb/9/94/Tommen_sons_of_the_harpy.jpg/250px-Tommen_sons_of_the_harpy.jpg
-Loras Tyrell	Highgarden	Tyrell, Baratheon, Kingsguard	Andal	Unknown	http://img2.wikia.nocookie.net/__cb20150519170126/gameofthrones/images/a/a7/LorasHD3x06-0.png
+Loras Tyrell	Highgarden	Tyrell, Baratheon, Kingsguard	Andal	Unknown	https://vignette.wikia.nocookie.net/gameofthrones/images/0/02/LorasTyrell5X06.PNG/revision/latest?cb=20181013200613
 Tormund	Beyond the Wall	Free Folk	Free Folk	Unknown	http://img2.wikia.nocookie.net/__cb20150415044031/gameofthrones/images/4/46/TormundGS5.png
 Grey Worm	Summer Isles	Targaryen, Unsullied	Unknown	Unknown	http://img2.wikia.nocookie.net/__cb20140618231552/gameofthrones/images/thumb/a/a8/Grey_Worm_Profile.jpg/250px-Grey_Worm_Profile.jpg
 Roose Bolton	The Dreadfort	Bolton	Northmen	Old Gods of the Forest	http://img3.wikia.nocookie.net/__cb20150618122950/gameofthrones/images/thumb/f/f2/Roose_Bolton-S05E06.png/250px-Roose_Bolton-S05E06.png
@@ -76,5 +76,5 @@ Eddard Stark	Winterfell	Stark	Northmen	Old Gods of the Forest	http://img2.wikia.
 Shireen Baratheon	Dragonstone	Baratheon	Andal	Unknown	http://img1.wikia.nocookie.net/__cb20140406204724/gameofthrones/images/thumb/e/eb/Shireen_Baratheon_Season_4_profile.jpg/250px-Shireen_Baratheon_Season_4_profile.jpg
 Khal Drogo	Vaes Dothrak	Self	Dothraki	Great Stallion	http://img1.wikia.nocookie.net/__cb20110626031733/gameofthrones/images/thumb/1/1f/Drogo_1x01b.jpg/130px-0%2C346%2C7%2C313-Drogo_1x01b.jpg
 Renly Baratheon	Storm's End	Baratheon	Unknown	Faith of the Seven	http://img1.wikia.nocookie.net/__cb20130116113034/gameofthrones/images/thumb/3/3d/Renly_profile.jpg/130px-0%2C379%2C6%2C341-Renly_profile.jpg
-Oberyn Martell	Sunspear	Martell, Second Sons, The Citadel	Dornishmen	Faith of the Seven	http://img1.wikia.nocookie.net/__cb20150302145403/gameofthrones/images/thumb/6/67/Oberyn_Martell_%28Season_4%2C_Episode_06%29.png/130px-0%2C500%2C8%2C450-Oberyn_Martell_%28Season_4%2C_Episode_06%29.png
+Oberyn Martell	Sunspear	Martell, Second Sons, The Citadel	Dornishmen	Faith of the Seven	https://vignette.wikia.nocookie.net/gameofthrones/images/9/96/Oberyn-Martell-house-martell-37118334-2832-4256.jpg/revision/latest/scale-to-width-down/665?cb=20150815065729
 Robert Baratheon	Storm's End	Baratheon	Unknown	Unknown	http://img2.wikia.nocookie.net/__cb20141119000127/gameofthrones/images/thumb/d/d4/RobertBaratheon.jpg/130px-0%2C346%2C7%2C313-RobertBaratheon.jpg

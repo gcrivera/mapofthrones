@@ -10,6 +10,9 @@ def parse_ultimate():
     for episode in data['episodes']:
         episode_data = str(episode['seasonNum']) + '\t' + str(episode['episodeNum']) + '\t' + episode['episodeTitle'] + '\t' + episode['episodeLink'] + '\t' + episode['episodeAirDate'] + '\t' + episode['episodeDescription'] + '\n'
         for scene in episode['scenes']:
+            if 'greensight' in scene.keys():
+                continue
+
             characters = {'characters': scene['characters']}
             characters = json.dumps(characters)
 
@@ -39,4 +42,4 @@ def parse_character():
     characters.close()
 
 if __name__ == '__main__':
-    parse_character()
+    parse_ultimate()
