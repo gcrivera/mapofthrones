@@ -16,21 +16,43 @@ export class InfoPanel extends Component {
     // this.api = props.data.apiService
     this.season = 1;
     this.episode = 1;
+    
     // Initialize season & episode selects
-    this.setOptions("control-season", 7);
-    this.setOptions("control-episode", 10);
+    this.setOptions("controlSeason", 7);
+    this.setOptions("controlEpisode", 10);
 
-    // Toggle info panel on title click
+    this.refs.controlSeason.addEventListener('change', () => this.updateSeason());
+    this.refs.controlEpisode.addEventListener('change', () => this.updateEpisode());
     this.refs.toggle.addEventListener('click', () => this.refs.container.classList.toggle('info-active'))
   }
 
-  setOptions (reference, numOptions) {
+  setOptions(reference, numOptions) {
+    this.refs[reference].innerHTML = "";
     for (let i = 1; i <= numOptions; i++) {
       let option = document.createElement("option");
       option.setAttribute("value", i);
       option.innerHTML = i;
       this.refs[reference].appendChild(option);
     }
+  }
+
+  updateSeason() {
+    const seasonNum = parseInt(this.refs.controlSeason.value);
+
+    if (this.season !== 7 && seasonNum === 7) {
+      this.setOptions("controlEpisode", 7);
+    } else if (this.season === 7 && seasonNum !== 7) {
+      this.setOptions("controlEpisode", 10);
+    }
+
+    this.season = seasonNum;
+    this.triggerEvent('setEpisode', { season: this.season, episode: this.episode });
+  }
+
+  updateEpisode() {
+    const episodeNum = parseInt(this.refs.controlEpisode.value);
+    this.episode = episodeNum;
+    this.triggerEvent('setEpisode', { season: this.season, episode: this.episode });
   }
 
   /** Show info when a map item is selected */

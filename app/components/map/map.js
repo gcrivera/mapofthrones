@@ -17,6 +17,7 @@ export class Map extends Component {
   constructor (mapPlaceholderId, props) {
     super(mapPlaceholderId, props, template);
     this.api = props.data.apiService;
+    this.curLayer = null;
 
     // Initialize Leaflet map
     this.map = L.map(this.refs.mapContainer, {
@@ -37,6 +38,10 @@ export class Map extends Component {
 
   // Add locations of given episode to map
   async displayEpisode(seasonNum, episodeNum) {
+    if (this.curLayer) { 
+      this.map.removeLayer(this.curLayer); 
+    }
+
     const episodeInfo = await this.api.getEpisode(seasonNum, episodeNum);
 
     const geoJSONLocs = episodeInfo.locations.map(loc => {
@@ -47,7 +52,7 @@ export class Map extends Component {
       }
     });
 
-    const curLayer = L.geoJSON(geoJSONLocs, {
+    this.curLayer = L.geoJSON(geoJSONLocs, {
       // Show marker on location
       pointToLayer: (feature, latlng) => {
         return L.marker(latlng, {
@@ -60,17 +65,17 @@ export class Map extends Component {
       onEachFeature: this.onEachLocation.bind(this)
     });
 
-    this.map.addLayer(curLayer);
+    this.map.addLayer(this.curLayer);
   }
 
   /** Assign Popup and click listener for each location point */
   onEachLocation (feature, layer) {
     // Bind popup to marker
     layer.bindPopup(feature.properties.name, { closeButton: false })
-    layer.on({ click: (e) => {
-      const { name, id, type } = feature.properties
-      this.triggerEvent('locationSelected', { name, id, type })
-    }})
+    // layer.on({ click: (e) => {
+    //   const { name, id, type } = feature.properties
+    //   this.triggerEvent('locationSelected', { name, id, type })
+    // }})
   }
 
   /** Trigger "click" on layer with provided name */

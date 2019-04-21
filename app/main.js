@@ -29,8 +29,8 @@ class ViewController {
     this.infoComponent = new InfoPanel('info-panel-placeholder', {
       data: { },
       events: { setEpisode: event => {
-        const { seasonNum, episodeNum } = event.detail;
-        this.mapComponent.displayEpisode(seasonNum, episodeNum);
+        const { season, episode } = event.detail;
+        this.mapComponent.displayEpisode(season, episode);
       }}
     });
 
