@@ -11,7 +11,6 @@
   .leaflet-control-attribution {
     display: none;
   }
-
   a.nostyle:link {
     text-decoration: inherit;
     color: inherit;
@@ -25,4 +24,12 @@
   a.nostyle:visited {
       color: inherit;
   }
+}
+
+.map-icon {
+  fill: #000;
+}
+
+.map-icon.active {
+  fill: #a50303;
 }
