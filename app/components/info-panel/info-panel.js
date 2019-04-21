@@ -128,6 +128,16 @@ export class InfoPanel extends Component {
       }
     });
 
+    if (!majorCharDiv.hasChildNodes()) {
+      const noChar = document.createElement("div");
+      noChar.innerText = "No major characters appeared in this location.";
+      majorCharDiv.appendChild(noChar);
+    }
+
+    if (!minorCharDiv.hasChildNodes()) {
+      otherCharHeader.innerText = "";
+    }
+
     return [majorCharDiv, otherCharHeader, minorCharDiv];
   }
 }
