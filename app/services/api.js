@@ -8,41 +8,45 @@ export class ApiService {
   }
 
   async httpGet (endpoint = '') {
-    this.cancelToken.cancel('Cancelled Ongoing Request')
-    this.cancelToken = CancelToken.source()
-    const response = await get(`${this.url}${endpoint}`, { cancelToken: this.cancelToken.token })
-    return response.data
+    this.cancelToken.cancel('Cancelled Ongoing Request');
+    this.cancelToken = CancelToken.source();
+    const response = await get(`${this.url}${endpoint}`, { cancelToken: this.cancelToken.token });
+    return response.data;
   }
 
-  async getLocations (type) {
-    return this.httpGet(`locations/${type}`)
+  async getEpisode(seasonNum, episodeNum) {
+    return this.httpGet(`episodes/${seasonNum}/${episodeNum}`);
   }
 
-  async getLocationSummary (id) {
-    return this.httpGet(`locations/${id}/summary`)
-  }
+  // async getLocations (type) {
+  //   return this.httpGet(`locations/${type}`)
+  // }
 
-  async getKingdoms () {
-    return this.httpGet('kingdoms')
-  }
+  // async getLocationSummary (id) {
+  //   return this.httpGet(`locations/${id}/summary`)
+  // }
 
-  async getKingdomSize (id) {
-    return this.httpGet(`kingdoms/${id}/size`)
-  }
+  // async getKingdoms () {
+  //   return this.httpGet('kingdoms')
+  // }
 
-  async getCastleCount (id) {
-    return this.httpGet(`kingdoms/${id}/castles`)
-  }
+  // async getKingdomSize (id) {
+  //   return this.httpGet(`kingdoms/${id}/size`)
+  // }
 
-  async getKingdomSummary (id) {
-    return this.httpGet(`kingdoms/${id}/summary`)
-  }
+  // async getCastleCount (id) {
+  //   return this.httpGet(`kingdoms/${id}/castles`)
+  // }
 
-  async getAllKingdomDetails (id) {
-    return {
-      kingdomSize: await this.getKingdomSize(id),
-      castleCount: await this.getCastleCount(id),
-      kingdomSummary: await this.getKingdomSummary(id)
-    }
-  }
+  // async getKingdomSummary (id) {
+  //   return this.httpGet(`kingdoms/${id}/summary`)
+  // }
+
+  // async getAllKingdomDetails (id) {
+  //   return {
+  //     kingdomSize: await this.getKingdomSize(id),
+  //     castleCount: await this.getCastleCount(id),
+  //     kingdomSummary: await this.getKingdomSummary(id)
+  //   }
+  // }
 }

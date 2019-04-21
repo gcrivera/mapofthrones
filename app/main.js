@@ -1,9 +1,9 @@
 import './main.scss';
 import template from './main.html';
 
-// import { ApiService } from './services/api'
-import { Map } from './components/map/map';
+import { ApiService } from './services/api'
 import { InfoPanel } from './components/info-panel/info-panel';
+import { Map } from './components/map/map';
 // import { LayerPanel } from './components/layer-panel/layer-panel'
 
 /** Main UI Controller Class */
@@ -12,7 +12,8 @@ class ViewController {
   constructor () {
     document.getElementById('app').outerHTML = template;
 
-    // // Initialize API service
+    // Initialize API service
+    this.api = new ApiService('http://localhost:5000/') // TODO
     // if (window.location.hostname === 'localhost') {
     //   this.api = new ApiService('http://localhost:5000/')
     // } else {
@@ -21,17 +22,17 @@ class ViewController {
 
     // this.locationPointTypes = [ 'castle', 'city', 'town', 'ruin', 'region', 'landmark' ]
     this.initializeComponents();
-    // this.loadMapData()
   }
 
   /** Initialize Components with data and event listeners */
   initializeComponents () {
     // Initialize Info Panel
-    // this.infoComponent = new InfoPanel('info-panel-placeholder', {
-    //   data: { apiService: this.api }
-    // });
     this.infoComponent = new InfoPanel('info-panel-placeholder', {
-      data: {}
+      data: { },
+      events: { setEpisode: event => {
+        const { seasonNum, episodeNum } = event.detail;
+        this.mapComponent.displayEpisode(seasonNum, episodeNum);
+      }}
     });
 
     // Initialize Map
@@ -42,7 +43,11 @@ class ViewController {
     //     this.infoComponent.showInfo(name, id, type)
     //   }}
     // })
-    this.mapComponent = new Map('map-placeholder', {});
+    this.mapComponent = new Map('map-placeholder', {
+      data: { apiService: this.api }
+    });
+
+    this.mapComponent.displayEpisode(1,1);
 
   //   // Initialize Layer Toggle Panel
   //   this.layerPanel = new LayerPanel('layer-panel-placeholder', {
@@ -56,6 +61,7 @@ class ViewController {
 
   /** Load map data from the API */
   // async loadMapData () {
+
   //   // Download kingdom boundaries
   //   const kingdomsGeojson = await this.api.getKingdoms()
 

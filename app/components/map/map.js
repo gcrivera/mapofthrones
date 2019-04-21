@@ -15,7 +15,8 @@ export class Map extends Component {
    * @param { Object } props.events.click Map item click listener
    */
   constructor (mapPlaceholderId, props) {
-    super(mapPlaceholderId, props, template)
+    super(mapPlaceholderId, props, template);
+    this.api = props.data.apiService;
 
     // Initialize Leaflet map
     this.map = L.map(this.refs.mapContainer, {
@@ -24,11 +25,9 @@ export class Map extends Component {
       maxZoom: 8,
       minZoom: 4,
       maxBounds: [ [ 50, -30 ], [ -45, 100 ] ]
-    })
+    });
 
-    this.map.zoomControl.setPosition('bottomright') // Position zoom control
-    this.layers = {} // Map layer dict (key/value = title/layer)
-    this.selectedRegion = null // Store currently selected region
+    this.map.zoomControl.setPosition('bottomright'); // Position zoom control
 
     // Render Carto GoT tile baselayer
     L.tileLayer(
@@ -36,81 +35,43 @@ export class Map extends Component {
       { crs: L.CRS.EPSG4326 }).addTo(this.map)
   }
 
-  /** Add location geojson to the leaflet instance */
-  // addLocationGeojson (layerTitle, geojson, iconUrl) {
-  //   // Initialize new geojson layer
-  //   this.layers[layerTitle] = L.geoJSON(geojson, {
-  //     // Show marker on location
-  //     pointToLayer: (feature, latlng) => {
-  //       return L.marker(latlng, {
-  //         icon: L.icon({ iconUrl, iconSize: [ 24, 56 ] }),
-  //         title: feature.properties.name })
-  //     },
-  //     onEachFeature: this.onEachLocation.bind(this)
-  //   })
-  // }
+  // Add locations of given episode to map
+  async displayEpisode(seasonNum, episodeNum) {
+    const episodeInfo = await this.api.getEpisode(seasonNum, episodeNum);
+
+    const geoJSONLocs = episodeInfo.locations.map(loc => {
+      return { 
+        type: loc.st_asgeojson.type, 
+        coordinates: loc.st_asgeojson.coordinates, 
+        properties: loc
+      }
+    });
+
+    const curLayer = L.geoJSON(geoJSONLocs, {
+      // Show marker on location
+      pointToLayer: (feature, latlng) => {
+        return L.marker(latlng, {
+          // TODO hard coded iconURL
+          icon: L.icon({ 
+            iconUrl: "http://localhost:8080/images/locationPinDark.png", 
+            iconSize: [ 16, 24 ] 
+          }),
+          title: feature.properties.name })
+      },
+      // onEachFeature: this.onEachLocation.bind(this)
+    });
+
+    this.map.addLayer(curLayer);
+  }
 
   /** Assign Popup and click listener for each location point */
   // onEachLocation (feature, layer) {
   //   // Bind popup to marker
   //   layer.bindPopup(feature.properties.name, { closeButton: false })
   //   layer.on({ click: (e) => {
-  //     this.setHighlightedRegion(null) // Deselect highlighed region
   //     const { name, id, type } = feature.properties
   //     this.triggerEvent('locationSelected', { name, id, type })
   //   }})
-  // }
-
-  /** Add boundary (kingdom) geojson to the leaflet instance */
-  // addKingdomGeojson (geojson) {
-  //   // Initialize new geojson layer
-  //   this.layers.kingdom = L.geoJSON(geojson, {
-  //     // Set layer style
-  //     style: {
-  //       'color': '#222',
-  //       'weight': 1,
-  //       'opacity': 0.65
-  //     },
-  //     onEachFeature: this.onEachKingdom.bind(this)
-  //   })
-  // }
-
-  /** Assign click listener for each kingdom GeoJSON item  */
-  // onEachKingdom (feature, layer) {
-  //   layer.on({ click: (e) => {
-  //     const { name, id } = feature.properties
-  //     this.map.closePopup() // Deselect selected location marker
-  //     this.setHighlightedRegion(layer) // Highlight kingdom polygon
-  //     this.triggerEvent('locationSelected', { name, id, type: 'kingdom' })
-  //   }})
-  // }
-
-  /** Highlight the selected region */
-  // setHighlightedRegion (layer) {
-  //   // If a layer is currently selected, deselect it
-  //   if (this.selected) { this.layers.kingdom.resetStyle(this.selected) }
-
-  //   // Select the provided region layer
-  //   this.selected = layer
-  //   if (this.selected) {
-  //     this.selected.bringToFront()
-  //     this.selected.setStyle({ color: 'blue' })
-  //   }
-  // }
-
-  /** Toggle map layer visibility */
-  // toggleLayer (layerName) {
-  //   const layer = this.layers[layerName]
-  //   if (this.map.hasLayer(layer)) {
-  //     this.map.removeLayer(layer)
-  //   } else {
-  //     this.map.addLayer(layer)
-  //   }
-  // }
-
-  /** Check if layer is added to map  */
-  // isLayerShowing (layerName) {
-  //   return this.map.hasLayer(this.layers[layerName])
   // }
 
   /** Trigger "click" on layer with provided name */
