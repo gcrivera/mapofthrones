@@ -38,16 +38,16 @@ export class Map extends Component {
 
   // Add locations of given episode to map
   async displayEpisode(seasonNum, episodeNum) {
-    if (this.curLayer) { 
-      this.map.removeLayer(this.curLayer); 
+    if (this.curLayer) {
+      this.map.removeLayer(this.curLayer);
     }
 
     const episodeInfo = await this.api.getEpisode(seasonNum, episodeNum);
 
     const geoJSONLocs = episodeInfo.locations.map(loc => {
-      return { 
-        type: loc.st_asgeojson.type, 
-        coordinates: loc.st_asgeojson.coordinates, 
+      return {
+        type: loc.st_asgeojson.type,
+        coordinates: loc.st_asgeojson.coordinates,
         properties: loc
       }
     });
@@ -56,9 +56,9 @@ export class Map extends Component {
       // Show marker on location
       pointToLayer: (feature, latlng) => {
         return L.marker(latlng, {
-          icon: L.icon({ 
-            iconUrl: "./images/locationPinDark.png", 
-            iconSize: [ 16, 24 ] 
+          icon: L.icon({
+            iconUrl: "./images/locationPinDark.png",
+            iconSize: [ 16, 24 ]
           }),
           title: feature.properties.name })
       },
@@ -72,8 +72,15 @@ export class Map extends Component {
   /** Assign Popup and click listener for each location point */
   onEachLocation (feature, layer) {
     // Bind popup to marker
-    layer.bindPopup(feature.properties.name, { closeButton: false })
+    const locTitle = document.createElement("a");
+    locTitle.setAttribute("href", feature.properties.url);
+    locTitle.setAttribute("target", "_blank");
+    locTitle.setAttribute("class", "nostyle");
+    locTitle.innerText = feature.properties.name;
+
+    layer.bindPopup(locTitle, { closeButton: false })
     layer.on({ click: () => {
+
       this.triggerEvent('locationSelected', { info: feature.properties });
     }})
   }

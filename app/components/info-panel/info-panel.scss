@@ -4,10 +4,24 @@
   font-family: $fontThrones;
   font-weight: bold;
   font-size: 20px;
-  padding: 5px 0px; 
+  padding: 5px 0px;
   border-top: 1px solid #aaa;
   border-bottom: 1px solid #aaa;
-  margin: 10px 0px 5px; 
+  margin: 10px 0px 5px;
+
+  a.nostyle:link {
+    text-decoration: inherit;
+    color: inherit;
+  }
+
+  a.nostyle:hover {
+    text-decoration: underline;
+    color: inherit;
+  }
+
+  a.nostyle:visited {
+      color: inherit;
+  }
 }
 
 .info-content {
@@ -97,4 +111,3 @@
     content: "\02C4";
   }
 }
-

@@ -16,7 +16,7 @@ export class InfoPanel extends Component {
     // this.api = props.data.apiService
     this.season = 1;
     this.episode = 1;
-    
+
     // Initialize season & episode selects
     this.setOptions("controlSeason", 7);
     this.setOptions("controlEpisode", 10);
@@ -56,14 +56,21 @@ export class InfoPanel extends Component {
 
   // Show information when a location is selected
   showLocInfo(locInfo) {
-    if (locInfo == null) { 
+    if (locInfo == null) {
       this.refs.title.innerHTML = "No Location Selected";
       this.refs.content.innerHTML = "";
       return;
     }
 
-    this.refs.title.innerHTML = locInfo.name;
-    
+    const locTitle = document.createElement("a");
+    locTitle.setAttribute("href", locInfo.url);
+    locTitle.setAttribute("target", "_blank");
+    locTitle.setAttribute("class", "nostyle");
+    locTitle.innerText = locInfo.name;
+
+    this.refs.title.innerHTML = "";
+    this.refs.title.appendChild(locTitle);//locInfo.name;
+
     // Reset content before adding;
     this.refs.content.innerHTML = "";
 
@@ -104,7 +111,7 @@ export class InfoPanel extends Component {
         const charDiv = document.createElement("div");
         charDiv.setAttribute("class", "character");
         charDiv.onclick = () => { this.showCharInfo(c); };
-        
+
         const charImg = document.createElement("img");
         charImg.setAttribute("src", c.image);
         charDiv.appendChild(charImg);

@@ -11,5 +11,18 @@
   .leaflet-control-attribution {
     display: none;
   }
-}
 
+  a.nostyle:link {
+    text-decoration: inherit;
+    color: inherit;
+  }
+
+  a.nostyle:hover {
+    text-decoration: underline;
+    color: inherit;
+  }
+
+  a.nostyle:visited {
+      color: inherit;
+  }
+}
