@@ -38,7 +38,7 @@ class ViewController {
       data: { apiService: this.api },
       events: { locationSelected: event => {
         const { info } = event.detail;
-        this.infoComponent.showInfo(info);
+        this.infoComponent.showLocInfo(info);
       }}
     });
 
