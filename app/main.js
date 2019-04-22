@@ -26,10 +26,16 @@ class ViewController {
     // Initialize Info Panel
     this.infoComponent = new InfoPanel('info-panel-placeholder', {
       data: { },
-      events: { setEpisode: event => {
-        const { season, episode } = event.detail;
-        this.mapComponent.displayEpisode(season, episode);
-      }}
+      events: { 
+        setEpisode: event => {
+          const { season, episode } = event.detail;
+          this.mapComponent.displayEpisode(season, episode);
+        },
+        selectCharacter: event => {
+          const { name } = event.detail;
+          this.mapComponent.selectLocsByChar(name);
+        }
+      }
     });
 
     // Initialize Map

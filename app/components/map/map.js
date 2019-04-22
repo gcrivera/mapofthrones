@@ -17,8 +17,10 @@ export class Map extends Component {
   constructor (mapPlaceholderId, props) {
     super(mapPlaceholderId, props, template);
     this.api = props.data.apiService;
+    this.charLocations = {};
     this.curLayer = null;
-    this.activeLocation = null;
+    this.activeLocations = [];
+    this.highlightedLocations = [];
 
     // Initialize Leaflet map
     this.map = L.map(this.refs.mapContainer, {
@@ -44,6 +46,17 @@ export class Map extends Component {
     }
 
     const episodeInfo = await this.api.getEpisode(seasonNum, episodeNum);
+
+    this.charLocations = {};
+    episodeInfo.locations.forEach(loc => {
+      loc.characters.forEach(char => {
+        if (this.charLocations[char.name]) {
+          this.charLocations[char.name].push(loc.gid);
+        } else {
+          this.charLocations[char.name] = [loc.gid];
+        }
+      });
+    });
 
     const geoJSONLocs = episodeInfo.locations.map(loc => {
       return {
@@ -82,7 +95,7 @@ export class Map extends Component {
     layer.on({ 
       click: () => {
         this.triggerEvent('locationSelected', { info: feature.properties });
-        this.setActiveLocation(feature.properties.gid);
+        this.setActiveLocations([feature.properties.gid]);
         layer.openPopup();
       },
       mouseover: () => {
@@ -101,15 +114,24 @@ export class Map extends Component {
     });
   }
 
-  setActiveLocation(locID) {
-    if (this.activeLocation) {
-      let activeElt = document.getElementById(`location-${this.activeLocation}`);
-      activeElt.classList.remove("active");
+  setActiveLocations(locIDs) {
+    if (this.activeLocations) {
+      this.activeLocations.forEach(locID => {
+        let activeElt = document.getElementById(`location-${locID}`);
+        activeElt.classList.remove("active");
+      });
     }
-    if (locID) {
-      let activeElt = document.getElementById(`location-${locID}`);
-      activeElt.classList.add("active");
+    if (locIDs) {
+      locIDs.forEach(locID => {
+        let activeElt = document.getElementById(`location-${locID}`);
+        activeElt.classList.add("active");
+      });
     }
-    this.activeLocation = locID;
+    this.activeLocations = locIDs;
+  }
+
+  selectLocsByChar(charName) {
+    this.map.closePopup();
+    this.setActiveLocations(this.charLocations[charName]);
   }
 }

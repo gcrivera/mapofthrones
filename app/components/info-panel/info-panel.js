@@ -133,7 +133,10 @@ export class InfoPanel extends Component {
       if (c.image) {
         const charDiv = document.createElement("div");
         charDiv.setAttribute("class", "character");
-        charDiv.onclick = () => { this.showCharInfo(c); };
+        charDiv.onclick = () => { 
+          this.showCharInfo(c);
+          this.triggerEvent("selectCharacter", { name: c.name }); 
+        };
 
         const charImg = document.createElement("img");
         charImg.setAttribute("src", c.image);
