@@ -17,10 +17,16 @@ export class Map extends Component {
   constructor (mapPlaceholderId, props) {
     super(mapPlaceholderId, props, template);
     this.api = props.data.apiService;
-    this.charLocations = {};
     this.curLayer = null;
     this.activeLocations = [];
     this.highlightedLocations = [];
+    this.locsBy = {
+      character: {},
+      houseallegiance: {},
+      origin: {},
+      culture: {},
+      religion: {}
+    };
 
     // Initialize Leaflet map
     this.map = L.map(this.refs.mapContainer, {
@@ -47,17 +53,25 @@ export class Map extends Component {
 
     const episodeInfo = await this.api.getEpisode(seasonNum, episodeNum);
 
-    this.charLocations = {};
+    // Reset properties
+    this.locsBy = { character: {}, houseallegiance: {}, origin: {}, culture: {}, religion: {} };
+    this.setActiveLocations([]);
+    this.setHighlightedLocations([]);
+
+    // Setting up info to easily access locations later
     episodeInfo.locations.forEach(loc => {
       loc.characters.forEach(char => {
-        if (this.charLocations[char.name]) {
-          this.charLocations[char.name].push(loc.gid);
+        if (this.locsBy.character[char.name]) {
+          this.locsBy.character[char.name].push(loc.gid);
         } else {
-          this.charLocations[char.name] = [loc.gid];
+          this.locsBy.character[char.name] = [loc.gid];
         }
+        
+        const types = ["houseallegiance", "origin", "culture", "religion"]
+        types.forEach(type => this.setLocByInfo(char, type, loc.gid));
       });
     });
-
+    
     const geoJSONLocs = episodeInfo.locations.map(loc => {
       return {
         type: loc.st_asgeojson.type,
@@ -80,6 +94,21 @@ export class Map extends Component {
 
     this.map.addLayer(this.curLayer);
     this.triggerEvent('locationSelected', { info: null });
+  }
+
+  setLocByInfo(charInfo, infoType, locID) {
+    const locsObj = this.locsBy[infoType];
+    if (charInfo[infoType]) {
+      charInfo[infoType].split(", ").forEach(key => {
+        if (locsObj[key]) {
+          if (!locsObj[key].includes(locID)){
+            locsObj[key].push(locID);
+          }
+        } else {
+          locsObj[key] = [locID];
+        }
+      });
+    };
   }
 
   /** Assign Popup and click listener for each location point */
@@ -118,7 +147,7 @@ export class Map extends Component {
     if (this.activeLocations) {
       this.activeLocations.forEach(locID => {
         let activeElt = document.getElementById(`location-${locID}`);
-        activeElt.classList.remove("active");
+        if (activeElt) { activeElt.classList.remove("active"); }
       });
     }
     if (locIDs) {
@@ -127,11 +156,35 @@ export class Map extends Component {
         activeElt.classList.add("active");
       });
     }
-    this.activeLocations = locIDs;
+    this.activeLocations = locIDs.slice();
+  }
+
+  setHighlightedLocations(locIDs) {
+    if (this.highlightedLocations) {
+      this.highlightedLocations.forEach(locID => {
+        let activeElt = document.getElementById(`location-${locID}`);
+        if (activeElt) { activeElt.classList.remove("highlight"); }
+      });
+    }
+    if (locIDs) {
+      locIDs.forEach(locID => {
+        let activeElt = document.getElementById(`location-${locID}`);
+        activeElt.classList.add("highlight");
+      });
+    }
+    this.highlightedLocations = locIDs.slice();
   }
 
   selectLocsByChar(charName) {
     this.map.closePopup();
-    this.setActiveLocations(this.charLocations[charName]);
+    this.setActiveLocations(this.locsBy.character[charName]);
+  }
+
+  highlightLocsByInfo(infoType, key) {
+    if (infoType) {
+      this.setHighlightedLocations(this.locsBy[infoType][key]);
+    } else {
+      this.setHighlightedLocations([]);
+    }
   }
 }

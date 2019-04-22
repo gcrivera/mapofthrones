@@ -34,6 +34,10 @@ class ViewController {
         selectCharacter: event => {
           const { name } = event.detail;
           this.mapComponent.selectLocsByChar(name);
+        },
+        highlightInfo: event => {
+          const { infoType, key } = event.detail;
+          this.mapComponent.highlightLocsByInfo(infoType, key);
         }
       }
     });

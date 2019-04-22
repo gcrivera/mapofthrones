@@ -112,11 +112,30 @@ export class InfoPanel extends Component {
     const headerHTML = document.createElement("h2");
     headerHTML.innerText = header;
 
-    const infoHTML = document.createElement("div");
-    infoHTML.innerText = info;
+    const infoDiv = document.createElement("div");
+    info.split(", ").forEach((infoItem, i) => {
+      if (i !== 0) {
+        const comma = document.createElement("span");
+        comma.innerText = ", ";
+        infoDiv.appendChild(comma);
+      }
+      const infoItemSpan = document.createElement("span");
+      infoItemSpan.innerText = infoItem;
+      infoItemSpan.classList.add("character-info-item");
+      infoItemSpan.addEventListener("mouseover", () => {
+        this.triggerEvent("highlightInfo", {
+          infoType: header.replace(/\s/g,'').toLowerCase(),
+          key: infoItem
+        });
+      });
+      infoItemSpan.addEventListener("mouseout", () => {
+        this.triggerEvent("highlightInfo", {});
+      });
+      infoDiv.appendChild(infoItemSpan);
+    });
 
     charDiv.appendChild(headerHTML);
-    charDiv.appendChild(infoHTML);
+    charDiv.appendChild(infoDiv);
   }
 
   getCharacterHTML(characterInfo) {
