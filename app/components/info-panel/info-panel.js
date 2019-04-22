@@ -94,27 +94,29 @@ export class InfoPanel extends Component {
     this.refs.title.innerHTML = charInfo.name;
     this.refs.content.innerHTML = "";
 
-    // const charContent = document.createElement("div");
     const charImg = document.createElement("img");
     charImg.setAttribute("src", charInfo.image);
+    charImg.setAttribute("class", "character-img");
+    
     const charDiv = document.createElement("div");
-
-    const charHouse = document.createElement("h2");
-    charHouse.innerText = "House Allegiances: " + charInfo.houseallegiance;
-    const charOrigin = document.createElement("h2");
-    charOrigin.innerText = "Origin: " + charInfo.origin;
-    const charCulture = document.createElement("h2");
-    charCulture.innerText = "Culture: " + charInfo.culture;
-    const charReligion = document.createElement("h2");
-    charReligion.innerText = "Religion: " + charInfo.religion;
-    charDiv.appendChild(charHouse);
-    charDiv.appendChild(charOrigin);
-    charDiv.appendChild(charCulture);
-    charDiv.appendChild(charReligion);
+    this.getCharInfoHTML(charDiv, "House Allegiance", charInfo.houseallegiance);
+    this.getCharInfoHTML(charDiv, "Origin", charInfo.origin);
+    this.getCharInfoHTML(charDiv, "Culture", charInfo.culture);
+    this.getCharInfoHTML(charDiv, "Religion", charInfo.religion);
 
     this.refs.content.appendChild(charImg);
     this.refs.content.appendChild(charDiv);
-    console.log(charInfo);
+  }
+
+  getCharInfoHTML(charDiv, header, info) {
+    const headerHTML = document.createElement("h2");
+    headerHTML.innerText = header;
+
+    const infoHTML = document.createElement("div");
+    infoHTML.innerText = info;
+
+    charDiv.appendChild(headerHTML);
+    charDiv.appendChild(infoHTML);
   }
 
   getCharacterHTML(characterInfo) {
