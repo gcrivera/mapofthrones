@@ -3,22 +3,33 @@
 ## Questions
 How do characters move and interact throughout Game of Thrones?
 
-## MVP for Milestone
-1. ~~Get map working (https://blog.patricktriest.com/game-of-thrones-map-node-postgres-redis/)~~
-2. ~~Render pins on map (select characters - limit number)~~
-3. ~~Changes pins by stepping through episodes~~
-4. ~~Click location for more info on characters & on location~~
-5. Click on character - what info to show?
+## TODOs
+- Backend - on initialization - get all episodes w/ locations to have in front-end
+- Backend - call for location by season/episode
+- Backend - call for character to get timeline
+- scrubbable timeline
+- Add episode name, description, (wiki link)
+- Add character wiki links
+- pictures of locations?
+- back button in side panel (char page -> loc page)
 
-Edge case - indicate if character in multiple locations in episode
-(idea - "Also at River Run" under pic - have hint icon, on hover flashes other location(s))
+## Use Notes
+Click on location -> click on character
+- scrub timeline -> scrubs through season/episodes as normal
+- clicks 'select character' -> scrubs through movements for character
+
+Single character scrubbing
+- indicate selected character - picture in right hand top corner?
+- show info like which characters they're with
+- intra-episode movements?
+- animate movements?
+- Draw then fade lines to show movement?
+- pan map with big movements? (@dany)
 
 ## Ideas
 - Show where characters are from - could by implemented as a new map, or as a filter (or both?)
 - Use bluebike-style pins to show how many people in each location (click/hover for more info)
 - add filters: e.g. show where all starks are (bonus idea - render "heaven")
-- Animate movement of characters
-- Links to wiki everywhere
 
 
 master
