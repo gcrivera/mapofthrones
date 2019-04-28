@@ -25,6 +25,11 @@ const typeValidator = validate({
   params: { type: joi.string().valid(['castle', 'city', 'town', 'ruin', 'landmark', 'region']).required() }
 })
 
+router.get('/episodes', async ctx => {
+  const result = await database.getEpisodes()
+  ctx.body = result || ctx.throw(404)
+})
+
 // Respond with number of castle in kingdom, by id
 router.get('/episodes/:season/:num', async ctx => {
   const seasonNum = ctx.params.season

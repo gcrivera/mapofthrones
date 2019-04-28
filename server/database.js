@@ -18,6 +18,93 @@ client.connect().then(() => {
 }).catch(log.error)
 
 module.exports = {
+
+  getEpisodes: async () => {
+    let data = {};
+
+    let summaryQuery = `
+      SELECT *
+      FROM episodes;`
+    let result = await client.query(summaryQuery, [ ]);
+    result.rows.map(x => {
+      let episodeID = x.seasonnum.toString() + x.episodenum.toString();
+      data[episodeID] = x;
+      data[episodeID].locations = [];
+    });
+
+    let allLocations = [];
+
+    summaryQuery = `
+      SELECT *
+      FROM scenes;`
+      result = await client.query(summaryQuery, [ ]);
+      result.rows.map(x => {
+        let episodeID = x.seasonnum.toString() + x.episodenum.toString();
+        let loc = {}
+        if (x.sublocation != 'NULL') {
+          loc.sublocation = x.sublocation;
+          if (allLocations.indexOf(x.sublocation) == -1) {
+            allLocations.push(x.sublocation);
+          }
+        }
+        loc.location = x.location;
+        if (allLocations.indexOf(x.location) == -1) {
+          allLocations.push(x.location);
+        }
+        data[episodeID].locations.push(loc);
+      });
+
+      let params = [];
+      for (let i = 1; i <= allLocations.length; i++) {
+        params.push('$' + i);
+      }
+
+      let allLocationData = {};
+
+      summaryQuery = `
+        SELECT ST_AsGeoJSON(geog), name, type, gid, summary, url
+        FROM locations
+        WHERE name IN (` + params.join(',') + `);`;
+      result = await client.query(summaryQuery, allLocations);
+
+      result.rows.map(x => {
+        allLocationData[x.name] = x;
+      })
+
+      // iterate over episodes
+      Object.keys(data).map(x => {
+        // iterate over locations in episodes
+        let currLocs = data[x].locations;
+        let addedLocs = [];
+        data[x].locations = [];
+        currLocs.map(loc => {
+          if (loc.sublocation != undefined) {
+            // Sublocation hit
+            if (allLocationData[loc.sublocation] != undefined) {
+              if (addedLocs.indexOf(loc.sublocation) == -1) {
+                data[x].locations.push(allLocationData[loc.sublocation])
+                addedLocs.push(loc.sublocation)
+              }
+            } else if (allLocationData[loc.location] != undefined) {
+              if (addedLocs.indexOf(loc.location) == -1) {
+                data[x].locations.push(allLocationData[loc.location])
+                addedLocs.push(loc.location)
+              }
+            }
+          } else {
+            if (allLocationData[loc.location] != undefined) {
+              if (addedLocs.indexOf(loc.location) == -1) {
+                data[x].locations.push(allLocationData[loc.location])
+                addedLocs.push(loc.location)
+              }
+            }
+          }
+        });
+      });
+
+    return data;
+  },
+
   getEpisode: async (seasonNum, episodeNum) => {
     let data;
 
