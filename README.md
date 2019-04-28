@@ -12,6 +12,7 @@ How do characters move and interact throughout Game of Thrones?
 - Add character wiki links
 - pictures of locations?
 - back button in side panel (char page -> loc page)
+- way to explore character without going through location
 
 ## Use Notes
 Click on location -> click on character
