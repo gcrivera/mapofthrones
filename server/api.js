@@ -30,7 +30,6 @@ router.get('/episodes', async ctx => {
   ctx.body = result || ctx.throw(404)
 })
 
-// Respond with number of castle in kingdom, by id
 router.get('/episodes/:season/:num', async ctx => {
   const seasonNum = ctx.params.season
   const episodeNum = ctx.params.num
@@ -38,6 +37,17 @@ router.get('/episodes/:season/:num', async ctx => {
     ctx.throw(404);
   }
   const result = await database.getEpisode(seasonNum, episodeNum)
+  ctx.body = result || ctx.throw(404)
+})
+
+router.get('/locations/:location/:season/:episode', async ctx => {
+  const location = ctx.params.location
+  const seasonNum = ctx.params.season
+  const episodeNum = ctx.params.episode
+  if (seasonNum == 7 && episodeNum > 7) {
+    ctx.throw(404);
+  }
+  const result = await database.getLocation(location, seasonNum, episodeNum)
   ctx.body = result || ctx.throw(404)
 })
 

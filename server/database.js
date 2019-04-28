@@ -19,6 +19,72 @@ client.connect().then(() => {
 
 module.exports = {
 
+  getLocation: async (location, seasonNum, episodeNum) => {
+    let data = {};
+
+    let summaryQuery = `
+      SELECT ST_AsGeoJSON(geog), name, type, gid, summary, url
+      FROM locations
+      WHERE name = $1
+      LIMIT(1);`
+    let result = await client.query(summaryQuery, [ location ]);
+    data = result.rows[0];
+
+    summaryQuery = `
+      SELECT *
+      FROM scenes
+      WHERE seasonnum = $1
+      AND episodenum = $2
+      AND sublocation = $3;`
+    result = await client.query(summaryQuery, [ seasonNum, episodeNum, location ])
+    if (result.rows.length == 0) {
+      summaryQuery = `
+        SELECT *
+        FROM scenes
+        WHERE seasonnum = $1
+        AND episodenum = $2
+        AND location = $3;`
+      result = await client.query(summaryQuery, [ seasonNum, episodeNum, location ])
+    }
+
+    let allCharacters = [];
+    result.rows.map(x => {
+      x.characters.characters.map(char => {
+        if (allCharacters.indexOf(char.name) == -1) {
+          allCharacters.push(char.name);
+        }
+      });
+    });
+
+    let params = [];
+    for (let i = 1; i <= allCharacters.length; i++) {
+      params.push('$' + i);
+    }
+    summaryQuery = `
+      SELECT *
+      FROM characters
+      WHERE name IN (` + params.join(',') + `);`;
+    result = await client.query(summaryQuery, allCharacters);
+
+    allCharacterData = {};
+    result.rows.map(char => {
+      char.main = true;
+      allCharacterData[char.name] = char;
+    });
+
+    data.characters = [];
+    allCharacters.map(char => {
+      if (allCharacterData[char] != undefined) {
+        data.characters.push(allCharacterData[char]);
+      } else {
+        data.characters.push({name: char, main: false});
+      }
+    });
+
+    return data;
+
+  },
+
   getEpisodes: async () => {
     let data = {};
 
