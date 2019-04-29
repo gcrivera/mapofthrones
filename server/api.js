@@ -51,4 +51,15 @@ router.get('/locations/:location/:season/:episode', async ctx => {
   ctx.body = result || ctx.throw(404)
 })
 
+router.get('/characters/:character/:season/:episode', async ctx => {
+  const character = ctx.params.character
+  const seasonNum = ctx.params.season
+  const episodeNum = ctx.params.episode
+  if (seasonNum == 7 && episodeNum > 7) {
+    ctx.throw(404);
+  }
+  const result = await database.getCharacterPage(character, seasonNum, episodeNum)
+  ctx.body = result || ctx.throw(404)
+})
+
 module.exports = router

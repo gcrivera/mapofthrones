@@ -4,6 +4,7 @@
 
 const postgres = require('pg')
 const fs = require('fs')
+const _ = require('underscore')
 const log = require('./logger')
 const connectionString = process.env.DATABASE_URL
 
@@ -18,6 +19,84 @@ client.connect().then(() => {
 }).catch(log.error)
 
 module.exports = {
+
+  getCharacterPage: async (character, seasonNum, episodeNum) => {
+    let summaryQuery = `
+      SELECT *
+      FROM scenes
+      WHERE seasonnum = $1
+      AND episodenum = $2;`
+    let result = await client.query(summaryQuery, [ seasonNum, episodeNum ])
+    let scenes = result.rows;
+
+    summaryQuery = `
+      SELECT *
+      FROM characters
+      WHERE name = $1
+      LIMIT(1);`
+    result = await client.query(summaryQuery, [ character ])
+    let characterData = result.rows[0];
+    characterData.origin = characterData.origin.split(", ");
+    characterData.houseallegiance = characterData.houseallegiance.split(", ");
+    characterData.culture = [characterData.culture];
+    characterData.religion = characterData.religion.split(", ");
+    data = characterData;
+
+    let allCharacters = [];
+    let allCharacterLocations = {};
+    scenes.map(x => {
+      x.characters.characters.map(char => {
+        if (char.name != character){
+          if (allCharacters.indexOf(char.name) == -1) {
+            allCharacters.push(char.name);
+            allCharacterLocations[char.name] = [{sublocation: x.sublocation, location: x.location}];
+          } else {
+            allCharacterLocations[char.name].push({sublocation: x.sublocation, location: x.location});
+          }
+        }
+      });
+    });
+
+    let params = [];
+    for (let i = 1; i <= allCharacters.length; i++) {
+      params.push('$' + i);
+    }
+    summaryQuery = `
+      SELECT *
+      FROM characters
+      WHERE name IN (` + params.join(',') + `);`;
+    result = await client.query(summaryQuery, allCharacters);
+
+    characterData.sharedorigin = [];
+    characterData.sharedhouseallegiance = [];
+    characterData.sharedculture = [];
+    characterData.sharedreligion = [];
+
+    result.rows.map(x => {
+      x.origin = x.origin.split(", ");
+      x.houseallegiance = x.houseallegiance.split(", ");
+      x.religion = x.religion.split(", ");
+
+      if (_.intersection(x.origin, characterData.origin).length > 0) {
+        characterData.sharedorigin = _.uniq(_.union(allCharacterLocations[x.name], characterData.sharedorigin), false, (item) => { return item.sublocation + item.location});
+      }
+
+      if (_.intersection(x.houseallegiance, characterData.houseallegiance).length > 0) {
+        characterData.sharedhouseallegiance = _.uniq(_.union(allCharacterLocations[x.name], characterData.sharedhouseallegiance), false, (item) => { return item.sublocation + item.location});
+      }
+
+      if (_.intersection(x.religion, characterData.religion).length > 0) {
+        characterData.sharedreligion = _.uniq(_.union(allCharacterLocations[x.name], characterData.sharedreligion), false, (item) => { return item.sublocation + item.location});
+      }
+
+      if (x.culture == characterData.culture[0]) {
+        characterData.sharedculture = _.uniq(_.union(allCharacterLocations[x.name], characterData.sharedculture), false, (item) => { return item.sublocation + item.location});
+      }
+    });
+
+    return characterData;
+
+  },
 
   getLocation: async (location, seasonNum, episodeNum) => {
     let data = {};
