@@ -51,6 +51,12 @@ router.get('/locations/:location/:season/:episode', async ctx => {
   ctx.body = result || ctx.throw(404)
 })
 
+router.get('/characters/timeline/:character', async ctx => {
+  const character = ctx.params.character
+  const result = await database.getCharacterTimeline(character)
+  ctx.body = result || ctx.throw(404)
+})
+
 router.get('/characters/:character/:season/:episode', async ctx => {
   const character = ctx.params.character
   const seasonNum = ctx.params.season

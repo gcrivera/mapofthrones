@@ -20,6 +20,86 @@ client.connect().then(() => {
 
 module.exports = {
 
+  getCharacterTimeline: async (character) => {
+    let summaryQuery = `
+      SELECT *
+      FROM characters
+      WHERE name = $1
+      LIMIT(1);`
+    let result = await client.query(summaryQuery, [ character ])
+    let characterData = result.rows[0];
+
+    characterData.origin = characterData.origin.split(", ");
+    characterData.houseallegiance = characterData.houseallegiance.split(", ");
+    characterData.culture = [characterData.culture];
+    characterData.religion = characterData.religion.split(", ");
+
+    summaryQuery = `
+      SELECT *
+      FROM scenes;`
+    result = await client.query(summaryQuery, [ ])
+
+    let scenes = result.rows.filter(x => {
+      let charInScene = x.characters.characters.filter(char => {
+        return char.name == character;
+      });
+      return charInScene.length > 0;
+    });
+
+    let allLocations = [];
+    scenes = scenes.map(x => {
+      let loc = {}
+      if (x.sublocation != 'NULL') {
+        loc.sublocation = x.sublocation;
+        if (allLocations.indexOf(x.sublocation) == -1) {
+          allLocations.push(x.sublocation);
+        }
+      }
+      loc.location = x.location;
+      if (allLocations.indexOf(x.location) == -1) {
+        allLocations.push(x.location);
+      }
+
+      delete x.sublocation;
+      x.location = loc;
+      return x;
+    });
+
+    let params = [];
+    for (let i = 1; i <= allLocations.length; i++) {
+      params.push('$' + i);
+    }
+
+    let allLocationData = {};
+
+    summaryQuery = `
+      SELECT ST_AsGeoJSON(geog), name, type, gid, summary, url
+      FROM locations
+      WHERE name IN (` + params.join(',') + `);`;
+    result = await client.query(summaryQuery, allLocations);
+
+    result.rows.map(x => {
+      allLocationData[x.name] = x;
+    });
+
+    scenes = scenes.map(x => {
+      if (x.location.sublocation != undefined) {
+        if (allLocationData[x.location.sublocation] != undefined) {
+          x.location = allLocationData[x.location.sublocation];
+        } else {
+          x.location = allLocationData[x.location.location];
+        }
+      } else {
+        x.location = allLocationData[x.location.location];
+      }
+      return x;
+    });
+
+    characterData.scenes = scenes;
+
+    return characterData;
+  },
+
   getCharacterPage: async (character, seasonNum, episodeNum) => {
     let summaryQuery = `
       SELECT *

@@ -7,7 +7,7 @@ How do characters move and interact throughout Game of Thrones?
 - ~~Backend - on initialization - get all episodes w/ locations to have in front-end~~
 - ~~Backend - call for location by season/episode~~
 - ~~Backend - call for character by season/episode~~
-- Backend - call for character to get timeline
+- ~~Backend - call for character to get timeline~~
 - scrubbable timeline
 - Add episode name, description, (wiki link)
 - Add character wiki links
