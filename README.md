@@ -12,9 +12,12 @@ How do characters move and interact throughout Game of Thrones?
 - scrubbable timeline
 - Add episode name, description, (wiki link)
 - Add character wiki links
-- pictures of locations?
 - back button in side panel (char page -> loc page)
 - way to explore character without going through location
+- turn off highlight for "Unknown" and "Self"
+- add link to reference code/tutorial
+- indicate number of (major) characters at location?
+- zoom details? - show character images if zoomed in close enough
 
 ## Use Notes
 Click on location -> click on character
@@ -37,6 +40,3 @@ Single character scrubbing
 
 master
 ilovegot
-
-## TODO
-- add link to reference code/tutorial
