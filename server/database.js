@@ -257,6 +257,16 @@ module.exports = {
       data[episodeID].locations = [];
     });
 
+    summaryQuery = `
+      SELECT name
+      FROM characters;`;
+    result = await client.query(summaryQuery, [ ]);
+
+    let allCharacterData = {};
+    result.rows.map(char => {
+      allCharacterData[char.name] = true;
+    });
+
     let allLocations = [];
 
     summaryQuery = `
@@ -276,6 +286,19 @@ module.exports = {
         if (allLocations.indexOf(x.location) == -1) {
           allLocations.push(x.location);
         }
+
+        let char = [];
+        let charMain = [];
+        x.characters.characters.map(sceneChar => {
+          if (allCharacterData[sceneChar.name] != undefined) {
+            charMain.push(sceneChar.name);
+          }
+          char.push(sceneChar.name);
+        });
+
+        loc.char = char;
+        loc.charMain = charMain;
+
         data[episodeID].locations.push(loc);
       });
 
@@ -301,29 +324,46 @@ module.exports = {
         // iterate over locations in episodes
         let currLocs = data[x].locations;
         let addedLocs = [];
+        let locChars = {};
+
         data[x].locations = [];
         currLocs.map(loc => {
           if (loc.sublocation != undefined) {
             // Sublocation hit
             if (allLocationData[loc.sublocation] != undefined) {
               if (addedLocs.indexOf(loc.sublocation) == -1) {
-                data[x].locations.push(allLocationData[loc.sublocation])
                 addedLocs.push(loc.sublocation)
+                locChars[loc.sublocation] = {char: loc.char, charMain: loc.charMain}
+              } else {
+                locChars[loc.sublocation].char = _.union(locChars[loc.sublocation].char, loc.char);
+                locChars[loc.sublocation].charMain = _.union(locChars[loc.sublocation].charMain, loc.charMain);
               }
             } else if (allLocationData[loc.location] != undefined) {
               if (addedLocs.indexOf(loc.location) == -1) {
-                data[x].locations.push(allLocationData[loc.location])
                 addedLocs.push(loc.location)
+                locChars[loc.location] = {char: loc.char, charMain: loc.charMain}
+              } else {
+                locChars[loc.location].char = _.union(locChars[loc.location].char, loc.char);
+                locChars[loc.location].charMain = _.union(locChars[loc.location].charMain, loc.charMain);
               }
             }
           } else {
             if (allLocationData[loc.location] != undefined) {
               if (addedLocs.indexOf(loc.location) == -1) {
-                data[x].locations.push(allLocationData[loc.location])
                 addedLocs.push(loc.location)
+                locChars[loc.location] = {char: loc.char, charMain: loc.charMain}
+              } else {
+                locChars[loc.location].char = _.union(locChars[loc.location].char, loc.char);
+                locChars[loc.location].charMain = _.union(locChars[loc.location].charMain, loc.charMain);
               }
             }
           }
+        });
+        addedLocs.map(addedLoc => {
+          allLocationData[addedLoc].numChar = locChars[addedLoc].char.length;
+          allLocationData[addedLoc].numCharMain = locChars[addedLoc].charMain.length;
+          let cloneLocData = Object.assign({}, allLocationData[addedLoc]);
+          data[x].locations.push({ ... cloneLocData });
         });
       });
 
