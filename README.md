@@ -21,6 +21,7 @@ How do characters move and interact throughout Game of Thrones?
 - add link to reference code/tutorial
 - indicate number of (major) characters at location?
 - zoom details? - show character images if zoomed in close enough
+- bug - back button doesn't unhighlight location icons (if char in multiple locations)
 
 ## Use Notes
 Click on location -> click on character
