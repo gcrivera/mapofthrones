@@ -26,8 +26,14 @@
   }
 }
 
+#my-gradient {
+  --color-1: #a50303;
+  --color-2: #000;
+}
+
 .map-icon {
-  fill: #000;
+  fill: url(#my-gradient) #000;
+  // fill: #000;
 }
 
 .map-icon.active {
