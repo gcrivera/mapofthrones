@@ -11,4 +11,25 @@
 
 #timeline-slider {
   width: 100%;
+  -webkit-appearance: none;
+  height: 15px;
+  border-radius: 5px;
+  background-color: #bfbfbf;
+  outline: none;
 }
+
+  #timeline-slider:hover {
+    background-color: #bbb;
+  }
+
+  #timeline-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    // background-color: #7B9766; // green
+    // background-color: #8D070B; // red
+    background-color: #777;
+    cursor: pointer;
+    box-shadow: 0 0 3px 0 #000;
+  }
