@@ -90,15 +90,19 @@ export class InfoPanel extends Component {
       const infoItemSpan = document.createElement("span");
       infoItemSpan.innerText = infoItem;
       infoItemSpan.classList.add("character-info-item");
-      infoItemSpan.addEventListener("mouseover", () => {
-        this.triggerEvent("highlightInfo", {
-          infoType: header.replace(/\s/g,'').toLowerCase(),
-          key: infoItem
+      if (infoItem !== "Unknown" && infoItem !== "Self") {
+        infoItemSpan.addEventListener("mouseover", () => {
+          infoItemSpan.classList.add("hover");
+          this.triggerEvent("highlightInfo", {
+            infoType: header.replace(/\s/g,'').toLowerCase(),
+            key: infoItem
+          });
         });
-      });
-      infoItemSpan.addEventListener("mouseout", () => {
-        this.triggerEvent("highlightInfo", {});
-      });
+        infoItemSpan.addEventListener("mouseout", () => {
+          infoItemSpan.classList.remove("hover");
+          this.triggerEvent("highlightInfo", {});
+        });
+      }
       infoDiv.appendChild(infoItemSpan);
     });
 
