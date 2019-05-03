@@ -48,8 +48,6 @@ class ViewController {
       }}
     });
 
-    this.mapComponent.displayEpisode(1,1);
-
     // Initialize Timeline
     this.timelineComponent = new TimelineSlider('timeline-slider-placeholder', {
       events: {

@@ -25,6 +25,7 @@ export class TimelineSlider extends Component {
     this.refs.timelineSlider.min = 1;
     this.refs.timelineSlider.max = totalNumEpisodes;
     this.refs.timelineSlider.value = this.getValue(1, 1);
+    this.updateSeasonEpisode();
   }
 
   updateSeasonEpisode() {
