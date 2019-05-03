@@ -14,44 +14,12 @@ export class InfoPanel extends Component {
   constructor (placeholderId, props) {
     super(placeholderId, props, template)
     // this.api = props.data.apiService
-    this.season = 1;
-    this.episode = 1;
-
-    // Initialize season & episode selects
-    this.setOptions("controlSeason", 7);
-    this.setOptions("controlEpisode", 10);
-
-    this.refs.controlSeason.addEventListener('change', () => this.updateSeason());
-    this.refs.controlEpisode.addEventListener('change', () => this.updateEpisode());
     this.refs.toggle.addEventListener('click', () => this.refs.container.classList.toggle('info-active'))
   }
 
-  setOptions(reference, numOptions) {
-    this.refs[reference].innerHTML = "";
-    for (let i = 1; i <= numOptions; i++) {
-      let option = document.createElement("option");
-      option.setAttribute("value", i);
-      option.innerHTML = i;
-      this.refs[reference].appendChild(option);
-    }
-  }
-
-  updateSeason() {
-    const seasonNum = parseInt(this.refs.controlSeason.value);
-
-    if (this.season !== 7 && seasonNum === 7) {
-      this.setOptions("controlEpisode", 7);
-    } else if (this.season === 7 && seasonNum !== 7) {
-      this.setOptions("controlEpisode", 10);
-    }
-
-    this.season = seasonNum;
-    this.triggerEvent('setEpisode', { season: this.season, episode: this.episode });
-  }
-
-  updateEpisode() {
-    this.episode = parseInt(this.refs.controlEpisode.value);
-    this.triggerEvent('setEpisode', { season: this.season, episode: this.episode });
+  setSeasonEpisode(seasonNum, episodeNum) {
+    this.refs.seasonNum.innerText = seasonNum;
+    this.refs.episodeNum.innerText = episodeNum;
   }
 
   // Show information when a location is selected

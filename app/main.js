@@ -4,6 +4,7 @@ import template from './main.html';
 import { ApiService } from './services/api'
 import { InfoPanel } from './components/info-panel/info-panel';
 import { Map } from './components/map/map';
+import { TimelineSlider } from './components/timeline-slider/timeline-slider';
 
 /** Main UI Controller Class */
 class ViewController {
@@ -27,10 +28,6 @@ class ViewController {
     this.infoComponent = new InfoPanel('info-panel-placeholder', {
       data: { },
       events: { 
-        setEpisode: event => {
-          const { season, episode } = event.detail;
-          this.mapComponent.displayEpisode(season, episode);
-        },
         selectCharacter: event => {
           const { name } = event.detail;
           this.mapComponent.selectLocsByChar(name);
@@ -52,6 +49,17 @@ class ViewController {
     });
 
     this.mapComponent.displayEpisode(1,1);
+
+    // Initialize Timeline
+    this.timelineComponent = new TimelineSlider('timeline-slider-placeholder', {
+      events: {
+        setEpisode: event => {
+          const { season, episode } = event.detail;
+          this.mapComponent.displayEpisode(season, episode);
+          this.infoComponent.setSeasonEpisode(season, episode);
+        }
+      }
+    });
   }
 }
 
