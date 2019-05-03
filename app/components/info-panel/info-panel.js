@@ -14,6 +14,7 @@ export class InfoPanel extends Component {
   constructor (placeholderId, props) {
     super(placeholderId, props, template)
     // this.api = props.data.apiService
+    this.locationInfo = null;
     this.refs.toggle.addEventListener('click', () => this.refs.container.classList.toggle('info-active'))
   }
 
@@ -24,6 +25,10 @@ export class InfoPanel extends Component {
 
   // Show information when a location is selected
   showLocInfo(locInfo) {
+    this.locationInfo = locInfo;
+    this.refs.backButton.classList.remove("active");
+
+
     if (locInfo == null) {
       this.refs.title.innerHTML = "No Location Selected";
       this.refs.content.innerHTML = "";
@@ -74,6 +79,9 @@ export class InfoPanel extends Component {
 
     this.refs.content.appendChild(charImg);
     this.refs.content.appendChild(charDiv);
+
+    this.refs.backButton.classList.add("active");
+    this.refs.backButton.addEventListener("click", () => this.showLocInfo(this.locationInfo));
   }
 
   getCharInfoHTML(charDiv, header, info) {

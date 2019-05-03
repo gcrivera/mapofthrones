@@ -13,10 +13,10 @@ How do characters move and interact throughout Game of Thrones?
 - ~~Backend - provide number of characters at each loc in initial call~~
 - ~~scrubbable timeline~~
 - ~~turn off highlight for "Unknown" and "Self"~~
+- ~~back button in side panel (char page -> loc page)~~
 - link backend to frontend
 - Add episode name, description, (wiki link)
 - Add character wiki links (in db)
-- back button in side panel (char page -> loc page)
 - way to explore character without going through location
 - add link to reference code/tutorial
 - indicate number of (major) characters at location?
