@@ -18,7 +18,15 @@ export class InfoPanel extends Component {
     this.refs.toggle.addEventListener('click', () => this.refs.container.classList.toggle('info-active'))
   }
 
-  setSeasonEpisode(seasonNum, episodeNum) {
+  setSeasonEpisode(seasonNum, episodeNum, episodeData) {
+    const episodeTitle = document.createElement("a");
+    episodeTitle.setAttribute("href", `//imdb.com${episodeData.episodelink}`);
+    episodeTitle.setAttribute("target", "_blank");
+    episodeTitle.setAttribute("class", "nostyle");
+    episodeTitle.innerText = episodeData.episodetitle;
+
+    this.refs.episodeTitle.innerHTML = "";
+    this.refs.episodeTitle.appendChild(episodeTitle);
     this.refs.seasonNum.innerText = seasonNum;
     this.refs.episodeNum.innerText = episodeNum;
   }
@@ -69,8 +77,16 @@ export class InfoPanel extends Component {
   async showCharInfo(charInfo) {
     charInfo = await this.api.getCharacter(charInfo.name, this.refs.seasonNum.innerText, this.refs.episodeNum.innerText);
 
+    const charName = document.createElement("a");
+    charName.setAttribute("href", charInfo.url);
+    charName.setAttribute("target", "_blank");
+    charName.setAttribute("class", "nostyle");
+    charName.innerText = charInfo.name;
+
+    this.refs.title.innerHTML = "";
+    this.refs.title.appendChild(charName);
+
     this.triggerEvent("selectCharacter", { name: charInfo.name, locations: charInfo.locations });
-    this.refs.title.innerHTML = charInfo.name;
     this.refs.content.innerHTML = "";
 
     const charImg = document.createElement("img");

@@ -49,28 +49,16 @@ export class Map extends Component {
   }
 
   // Add locations of given episode to map
-  async displayEpisode(seasonNum, episodeNum, initialize) {
+  async displayEpisode(seasonNum, episodeNum, episodeData) {
     if (this.curLayer) {
       this.map.removeLayer(this.curLayer);
     }
-
-    if (initialize) {
-      this.allEpisodeData = await this.api.getAllEpisodes();
-      Object.keys(this.allEpisodeData).map(key => {
-        this.allEpisodeData[key].locations = this.allEpisodeData[key].locations.map(loc => {
-          loc.st_asgeojson = JSON.parse(loc.st_asgeojson);
-          return loc;
-        });
-      });
-    }
-
-    const episodeInfo = this.allEpisodeData[`${seasonNum}${episodeNum}`];
 
     // Reset properties
     this.setActiveLocations([]);
     this.setHighlightedLocations([]);
 
-    const geoJSONLocs = episodeInfo.locations.map(loc => {
+    const geoJSONLocs = episodeData.locations.map(loc => {
       return {
         type: loc.st_asgeojson.type,
         coordinates: loc.st_asgeojson.coordinates,

@@ -13,9 +13,10 @@ export class TimelineSlider extends Component {
    */
   constructor (placeholderId, props) {
     super(placeholderId, props, template)
+    this.api = props.data.apiService
     // this.season = 1;
     // this.episode = 1;
-
+    this.allEpisodeData;
     this.setupSlider(67);
 
     this.refs.timelineSlider.addEventListener('change', () => this.updateSeasonEpisode());
@@ -28,11 +29,21 @@ export class TimelineSlider extends Component {
     this.updateSeasonEpisode(true);
   }
 
-  updateSeasonEpisode(initialize=false) {
+  async updateSeasonEpisode(initialize=false) {
+    if (initialize) {
+      this.allEpisodeData = await this.api.getAllEpisodes();
+      Object.keys(this.allEpisodeData).map(key => {
+        this.allEpisodeData[key].locations = this.allEpisodeData[key].locations.map(loc => {
+          loc.st_asgeojson = JSON.parse(loc.st_asgeojson);
+          return loc;
+        });
+      });
+    }
     const parsedValues = this.parseValue(this.refs.timelineSlider.value);
     const season = parsedValues[0];
     const episode = parsedValues[1];
-    this.triggerEvent('setEpisode', { season, episode, initialize });
+    const episodeData = this.allEpisodeData[`${season}${episode}`];
+    this.triggerEvent('setEpisode', { season, episode, episodeData });
   }
 
   getValue(seasonNum, episodeNum) {

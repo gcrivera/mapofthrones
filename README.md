@@ -15,14 +15,14 @@ How do characters move and interact throughout Game of Thrones?
 - ~~turn off highlight for "Unknown" and "Self"~~
 - ~~back button in side panel (char page -> loc page)~~
 - ~~link backend to frontend~~
-- Add episode name, description, (wiki link)
-- Add character wiki links (in db)
+- Add episode name, description, (wiki link) (Name and wiki link done)
+- ~~Add character wiki links (in db)~~
 - way to explore character without going through location
 - add link to reference code/tutorial
 - indicate number of (major) characters at location?
 - zoom details? - show character images if zoomed in close enough
 - bug - back button doesn't unhighlight location icons (if char in multiple locations)
-- bug - back button does not work at all 
+- bug - back button does not work at all
 
 ## Use Notes
 Click on location -> click on character

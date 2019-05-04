@@ -11,6 +11,26 @@
   align-items: center;
 }
 
+  .info-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    a.nostyle:link {
+      text-decoration: inherit;
+      color: inherit;
+    }
+
+    a.nostyle:hover {
+      text-decoration: underline;
+      color: inherit;
+    }
+
+    a.nostyle:visited {
+      color: inherit;
+    }
+  }
+
   .info-title {
     font-family: $fontThrones;
     font-weight: bold;

@@ -55,11 +55,12 @@ class ViewController {
 
     // Initialize Timeline
     this.timelineComponent = new TimelineSlider('timeline-slider-placeholder', {
+      data: { apiService: this.api },
       events: {
         setEpisode: event => {
-          const { season, episode, initialize } = event.detail;
-          this.mapComponent.displayEpisode(season, episode, initialize);
-          this.infoComponent.setSeasonEpisode(season, episode);
+          const { season, episode, episodeData } = event.detail;
+          this.mapComponent.displayEpisode(season, episode, episodeData);
+          this.infoComponent.setSeasonEpisode(season, episode, episodeData);
         }
       }
     });
