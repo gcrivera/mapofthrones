@@ -126,16 +126,16 @@ module.exports = {
     let allCharacterLocations = {};
     scenes.map(x => {
       x.characters.characters.map(char => {
-        if (char.name != character){
-          if (allCharacters.indexOf(char.name) == -1) {
-            allCharacters.push(char.name);
-            allCharacterLocations[char.name] = [{sublocation: x.sublocation, location: x.location}];
-          } else {
-            allCharacterLocations[char.name].push({sublocation: x.sublocation, location: x.location});
-          }
+        if (allCharacters.indexOf(char.name) == -1) {
+          allCharacters.push(char.name);
+          allCharacterLocations[char.name] = [{sublocation: x.sublocation, location: x.location}];
+        } else {
+          allCharacterLocations[char.name].push({sublocation: x.sublocation, location: x.location});
         }
       });
     });
+
+    characterData.locations = allCharacterLocations[characterData.name];
 
     let params = [];
     for (let i = 1; i <= allCharacters.length; i++) {
@@ -178,8 +178,12 @@ module.exports = {
 
   },
 
-  getLocation: async (location, seasonNum, episodeNum) => {
+  getLocation: async (location, locations, seasonNum, episodeNum) => {
     let data = {};
+
+    locations = locations.split(',').filter((loc) => {
+      return loc != location;
+    });
 
     let summaryQuery = `
       SELECT ST_AsGeoJSON(geog), name, type, gid, summary, url
@@ -197,13 +201,18 @@ module.exports = {
       AND sublocation = $3;`
     result = await client.query(summaryQuery, [ seasonNum, episodeNum, location ])
     if (result.rows.length == 0) {
+      let params = [];
+      for (let i = 4; i <= locations.length + 3; i++) {
+        params.push('$' + i);
+      }
       summaryQuery = `
         SELECT *
         FROM scenes
         WHERE seasonnum = $1
         AND episodenum = $2
-        AND location = $3;`
-      result = await client.query(summaryQuery, [ seasonNum, episodeNum, location ])
+        AND location = $3
+        AND sublocation NOT IN (` + params.join(',') + `);`
+      result = await client.query(summaryQuery, [ seasonNum, episodeNum, location ].concat(locations))
     }
 
     let allCharacters = [];

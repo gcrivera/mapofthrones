@@ -10,6 +10,7 @@ import { TimelineSlider } from './components/timeline-slider/timeline-slider';
 class ViewController {
   /** Initialize Application */
   constructor () {
+
     document.getElementById('app').outerHTML = template;
 
     // Initialize API service
@@ -26,15 +27,19 @@ class ViewController {
   initializeComponents () {
     // Initialize Info Panel
     this.infoComponent = new InfoPanel('info-panel-placeholder', {
-      data: { },
-      events: { 
+      data: { apiService: this.api },
+      events: {
         selectCharacter: event => {
-          const { name } = event.detail;
-          this.mapComponent.selectLocsByChar(name);
+          const { name, locations } = event.detail;
+          this.mapComponent.selectLocsByChar(name, locations);
         },
         highlightInfo: event => {
-          const { infoType, key } = event.detail;
-          this.mapComponent.highlightLocsByInfo(infoType, key);
+          const { infoType, locs } = event.detail;
+          this.mapComponent.highlightLocsByInfo(infoType, locs);
+        },
+        locationBack: event => {
+          const { locInfo } = event.detail;
+          this.mapComponent.locationBack(locInfo);
         }
       }
     });
@@ -43,8 +48,8 @@ class ViewController {
     this.mapComponent = new Map('map-placeholder', {
       data: { apiService: this.api },
       events: { locationSelected: event => {
-        const { info } = event.detail;
-        this.infoComponent.showLocInfo(info);
+        const { info, locations } = event.detail;
+        this.infoComponent.showLocInfo(info, locations);
       }}
     });
 
@@ -52,8 +57,8 @@ class ViewController {
     this.timelineComponent = new TimelineSlider('timeline-slider-placeholder', {
       events: {
         setEpisode: event => {
-          const { season, episode } = event.detail;
-          this.mapComponent.displayEpisode(season, episode);
+          const { season, episode, initialize } = event.detail;
+          this.mapComponent.displayEpisode(season, episode, initialize);
           this.infoComponent.setSeasonEpisode(season, episode);
         }
       }

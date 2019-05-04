@@ -18,6 +18,7 @@ export class Map extends Component {
     super(mapPlaceholderId, props, template);
     this.api = props.data.apiService;
     this.curLayer = null;
+    this.episodeLocations = {};
     this.activeLocations = [];
     this.highlightedLocations = [];
     this.locsBy = {
@@ -43,36 +44,28 @@ export class Map extends Component {
     L.tileLayer(
       'https://cartocdn-gusc.global.ssl.fastly.net/ramirocartodb/api/v1/map/named/tpl_756aec63_3adb_48b6_9d14_331c6cbc47cf/all/{z}/{x}/{y}.png',
       { crs: L.CRS.EPSG4326 }).addTo(this.map)
+
+      this.allEpisodeData;
   }
 
   // Add locations of given episode to map
-  async displayEpisode(seasonNum, episodeNum) {
+  async displayEpisode(seasonNum, episodeNum, initialize) {
     if (this.curLayer) {
       this.map.removeLayer(this.curLayer);
     }
 
-    const episodeInfo = await this.api.getEpisode(seasonNum, episodeNum);
+    if (initialize) {
+      this.allEpisodeData = await this.api.getAllEpisodes();
+    }
+
+    const episodeInfo = this.allEpisodeData[`${seasonNum}${episodeNum}`];
 
     // Reset properties
-    this.locsBy = { character: {}, houseallegiance: {}, origin: {}, culture: {}, religion: {} };
     this.setActiveLocations([]);
     this.setHighlightedLocations([]);
 
-    // Setting up info to easily access locations later
-    episodeInfo.locations.forEach(loc => {
-      loc.characters.forEach(char => {
-        if (this.locsBy.character[char.name]) {
-          this.locsBy.character[char.name].push(loc.gid);
-        } else {
-          this.locsBy.character[char.name] = [loc.gid];
-        }
-        
-        const types = ["houseallegiance", "origin", "culture", "religion"]
-        types.forEach(type => this.setLocByInfo(char, type, loc.gid));
-      });
-    });
-    
     const geoJSONLocs = episodeInfo.locations.map(loc => {
+      loc.st_asgeojson = JSON.parse(loc.st_asgeojson)
       return {
         type: loc.st_asgeojson.type,
         coordinates: loc.st_asgeojson.coordinates,
@@ -80,14 +73,18 @@ export class Map extends Component {
       }
     });
 
+    this.episodeLocations = {};
+    geoJSONLocs.map((loc) => {
+      this.episodeLocations[loc.properties.name] = loc.properties.gid;
+    });
+
     this.curLayer = L.geoJSON(geoJSONLocs, {
       // Show marker on location
       pointToLayer: (feature, latlng) => {
-        console.log(feature);
         const icon = this.getIcon(feature.properties.gid);
         return L.marker(latlng, {
           icon,
-          title: feature.properties.name 
+          title: feature.properties.name
         });
       },
       onEachFeature: this.onEachLocation.bind(this)
@@ -120,11 +117,11 @@ export class Map extends Component {
     locTitle.setAttribute("target", "_blank");
     locTitle.setAttribute("class", "nostyle");
     locTitle.innerText = feature.properties.name;
-    
+
     layer.bindPopup(locTitle, { closeButton: false })
-    layer.on({ 
+    layer.on({
       click: () => {
-        this.triggerEvent('locationSelected', { info: feature.properties });
+        this.triggerEvent('locationSelected', { info: feature.properties, locations: Object.keys(this.episodeLocations) });
         this.setActiveLocations([feature.properties.gid]);
         layer.openPopup();
       },
@@ -148,7 +145,7 @@ export class Map extends Component {
           <path d="M3935 12790 c-860 -64 -1638 -346 -2279 -827 -334 -251 -709 -621 -943 -931 -406 -539 -624 -1118 -695 -1847 -19 -199 -16 -700 5 -863 75 -567 272 -1057 740 -1837 235 -391 381 -614 1177 -1805 498 -744 581 -872 738 -1141 420 -719 756 -1422 992 -2074 114 -317 171 -504 325 -1075 36 -135 75 -264 86 -287 49 -101 153 -134 237 -73 78 57 115 146 247 597 250 854 395 1244 689 1848 352 723 750 1382 1591 2635 624 930 973 1506 1259 2078 168 335 255 565 300 794 92 461 99 1152 16 1579 -112 579 -379 1140 -788 1656 -117 148 -448 476 -611 606 -669 534 -1458 857 -2321 953 -165 18 -601 26 -765 14z"/>
         </g>
       </svg>`;
-    
+
     return L.divIcon({
       className: "",
       html: L.Util.template(iconUrl, { locID: `location-${locID}` }),
@@ -188,16 +185,34 @@ export class Map extends Component {
     this.highlightedLocations = locIDs.slice();
   }
 
-  selectLocsByChar(charName) {
+  selectLocsByChar(charName, locations) {
     this.map.closePopup();
-    this.setActiveLocations(this.locsBy.character[charName]);
+    const locIDs = locations.map((loc) => {
+      if (this.episodeLocations[loc.sublocation] != undefined) {
+        return this.episodeLocations[loc.sublocation];
+      } else {
+        return this.episodeLocations[loc.location];
+      }
+    });
+    this.setActiveLocations(locIDs);
   }
 
-  highlightLocsByInfo(infoType, key) {
+  highlightLocsByInfo(infoType, locs) {
     if (infoType) {
-      this.setHighlightedLocations(this.locsBy[infoType][key]);
+      const locIDs = locs.map((loc) => {
+        if (this.episodeLocations[loc.sublocation] != undefined) {
+          return this.episodeLocations[loc.sublocation];
+        } else {
+          return this.episodeLocations[loc.location];
+        }
+      });
+      this.setHighlightedLocations(locIDs);
     } else {
       this.setHighlightedLocations([]);
     }
+  }
+
+  locationBack(locInfo) {
+    this.triggerEvent('locationSelected', { info: locInfo, locations: Object.keys(this.episodeLocations) });
   }
 }

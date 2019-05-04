@@ -40,14 +40,15 @@ router.get('/episodes/:season/:num', async ctx => {
   ctx.body = result || ctx.throw(404)
 })
 
-router.get('/locations/:location/:season/:episode', async ctx => {
+router.get('/locations/:location/:locations/:season/:episode', async ctx => {
   const location = ctx.params.location
+  const locations = ctx.params.locations
   const seasonNum = ctx.params.season
   const episodeNum = ctx.params.episode
   if (seasonNum == 7 && episodeNum > 7) {
     ctx.throw(404);
   }
-  const result = await database.getLocation(location, seasonNum, episodeNum)
+  const result = await database.getLocation(location, locations, seasonNum, episodeNum)
   ctx.body = result || ctx.throw(404)
 })
 

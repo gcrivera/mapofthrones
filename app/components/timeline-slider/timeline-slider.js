@@ -25,14 +25,14 @@ export class TimelineSlider extends Component {
     this.refs.timelineSlider.min = 1;
     this.refs.timelineSlider.max = totalNumEpisodes;
     this.refs.timelineSlider.value = this.getValue(1, 1);
-    this.updateSeasonEpisode();
+    this.updateSeasonEpisode(true);
   }
 
-  updateSeasonEpisode() {
+  updateSeasonEpisode(initialize=false) {
     const parsedValues = this.parseValue(this.refs.timelineSlider.value);
     const season = parsedValues[0];
     const episode = parsedValues[1];
-    this.triggerEvent('setEpisode', { season, episode });
+    this.triggerEvent('setEpisode', { season, episode, initialize });
   }
 
   getValue(seasonNum, episodeNum) {

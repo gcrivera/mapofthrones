@@ -13,7 +13,7 @@ export class InfoPanel extends Component {
    */
   constructor (placeholderId, props) {
     super(placeholderId, props, template)
-    // this.api = props.data.apiService
+    this.api = props.data.apiService
     this.locationInfo = null;
     this.refs.toggle.addEventListener('click', () => this.refs.container.classList.toggle('info-active'))
   }
@@ -24,16 +24,19 @@ export class InfoPanel extends Component {
   }
 
   // Show information when a location is selected
-  showLocInfo(locInfo) {
-    this.locationInfo = locInfo;
-    this.refs.backButton.classList.remove("active");
-
-
+  async showLocInfo(locInfo, locations) {
     if (locInfo == null) {
       this.refs.title.innerHTML = "No Location Selected";
       this.refs.content.innerHTML = "";
       return;
     }
+
+    locInfo = await this.api.getLocation(locInfo.name, locations, this.refs.seasonNum.innerText, this.refs.episodeNum.innerText)
+    this.locationInfo = locInfo;
+
+    this.refs.backButton.classList.remove("active");
+    this.refs.backButton.removeEventListener("click", this.triggerBackButton);
+    console.log(this.refs.backButton)
 
     const locTitle = document.createElement("a");
     locTitle.setAttribute("href", locInfo.url);
@@ -63,33 +66,41 @@ export class InfoPanel extends Component {
     this.refs.content.appendChild(summaryContent);
   }
 
-  showCharInfo(charInfo) {
+  async showCharInfo(charInfo) {
+    charInfo = await this.api.getCharacter(charInfo.name, this.refs.seasonNum.innerText, this.refs.episodeNum.innerText);
+
+    this.triggerEvent("selectCharacter", { name: charInfo.name, locations: charInfo.locations });
     this.refs.title.innerHTML = charInfo.name;
     this.refs.content.innerHTML = "";
 
     const charImg = document.createElement("img");
     charImg.setAttribute("src", charInfo.image);
     charImg.setAttribute("class", "character-img");
-    
+
     const charDiv = document.createElement("div");
-    this.getCharInfoHTML(charDiv, "House Allegiance", charInfo.houseallegiance);
-    this.getCharInfoHTML(charDiv, "Origin", charInfo.origin);
-    this.getCharInfoHTML(charDiv, "Culture", charInfo.culture);
-    this.getCharInfoHTML(charDiv, "Religion", charInfo.religion);
+    this.getCharInfoHTML(charDiv, "House Allegiance", charInfo.houseallegiance, charInfo.sharedhouseallegiance);
+    this.getCharInfoHTML(charDiv, "Origin", charInfo.origin, charInfo.sharedorigin);
+    this.getCharInfoHTML(charDiv, "Culture", charInfo.culture, charInfo.sharedculture);
+    this.getCharInfoHTML(charDiv, "Religion", charInfo.religion, charInfo.sharedreligion);
 
     this.refs.content.appendChild(charImg);
     this.refs.content.appendChild(charDiv);
 
     this.refs.backButton.classList.add("active");
-    this.refs.backButton.addEventListener("click", () => this.showLocInfo(this.locationInfo));
+    this.refs.backButton.addEventListener("click", this.triggerBackButton);
   }
 
-  getCharInfoHTML(charDiv, header, info) {
+  triggerBackButton() {
+    this.triggerEvent('locationBack', { locInfo: this.locationInfo });
+    return
+  }
+
+  getCharInfoHTML(charDiv, header, info, sharedLocs) {
     const headerHTML = document.createElement("h2");
     headerHTML.innerText = header;
 
     const infoDiv = document.createElement("div");
-    info.split(", ").forEach((infoItem, i) => {
+    info.forEach((infoItem, i) => {
       if (i !== 0) {
         const comma = document.createElement("span");
         comma.innerText = ", ";
@@ -103,7 +114,7 @@ export class InfoPanel extends Component {
           infoItemSpan.classList.add("hover");
           this.triggerEvent("highlightInfo", {
             infoType: header.replace(/\s/g,'').toLowerCase(),
-            key: infoItem
+            locs: sharedLocs
           });
         });
         infoItemSpan.addEventListener("mouseout", () => {
@@ -112,7 +123,7 @@ export class InfoPanel extends Component {
         });
       }
       infoDiv.appendChild(infoItemSpan);
-    });
+    })
 
     charDiv.appendChild(headerHTML);
     charDiv.appendChild(infoDiv);
@@ -132,9 +143,8 @@ export class InfoPanel extends Component {
       if (c.image) {
         const charDiv = document.createElement("div");
         charDiv.setAttribute("class", "character");
-        charDiv.onclick = () => { 
+        charDiv.onclick = () => {
           this.showCharInfo(c);
-          this.triggerEvent("selectCharacter", { name: c.name }); 
         };
 
         const charImg = document.createElement("img");

@@ -17,4 +17,20 @@ export class ApiService {
   async getEpisode(seasonNum, episodeNum) {
     return this.httpGet(`episodes/${seasonNum}/${episodeNum}`);
   }
+
+  async getAllEpisodes() {
+    return await this.httpGet(`episodes`);
+  }
+
+  async getLocation(location, locations, seasonNum, episodeNum) {
+    return this.httpGet(`locations/${location}/${locations}/${seasonNum}/${episodeNum}`)
+  }
+
+  async getCharacter(character, seasonNum, episodeNum) {
+    return this.httpGet(`characters/${character}/${seasonNum}/${episodeNum}`)
+  }
+
+  async getCharacterTimeline(character) {
+    return this.httpGet(`characters/timeline/${character}`)
+  }
 }
