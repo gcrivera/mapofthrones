@@ -1,6 +1,6 @@
 # Game-of-Thrones-Map
 
-## View in Chrome for all styling 
+## View in Chrome for all styling
 
 ## Questions
 How do characters move and interact throughout Game of Thrones?
@@ -14,7 +14,7 @@ How do characters move and interact throughout Game of Thrones?
 - ~~scrubbable timeline~~
 - ~~turn off highlight for "Unknown" and "Self"~~
 - ~~back button in side panel (char page -> loc page)~~
-- link backend to frontend
+- ~~link backend to frontend~~
 - Add episode name, description, (wiki link)
 - Add character wiki links (in db)
 - way to explore character without going through location
@@ -22,6 +22,7 @@ How do characters move and interact throughout Game of Thrones?
 - indicate number of (major) characters at location?
 - zoom details? - show character images if zoomed in close enough
 - bug - back button doesn't unhighlight location icons (if char in multiple locations)
+- bug - back button does not work at all 
 
 ## Use Notes
 Click on location -> click on character

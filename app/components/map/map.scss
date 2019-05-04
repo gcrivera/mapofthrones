@@ -11,6 +11,11 @@
   .leaflet-control-attribution {
     display: none;
   }
+
+  .leaflet-popup-content {
+    text-align: center;
+  }
+  
   a.nostyle:link {
     text-decoration: inherit;
     color: inherit;

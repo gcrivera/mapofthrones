@@ -56,6 +56,12 @@ export class Map extends Component {
 
     if (initialize) {
       this.allEpisodeData = await this.api.getAllEpisodes();
+      Object.keys(this.allEpisodeData).map(key => {
+        this.allEpisodeData[key].locations = this.allEpisodeData[key].locations.map(loc => {
+          loc.st_asgeojson = JSON.parse(loc.st_asgeojson);
+          return loc;
+        });
+      });
     }
 
     const episodeInfo = this.allEpisodeData[`${seasonNum}${episodeNum}`];
@@ -65,7 +71,6 @@ export class Map extends Component {
     this.setHighlightedLocations([]);
 
     const geoJSONLocs = episodeInfo.locations.map(loc => {
-      loc.st_asgeojson = JSON.parse(loc.st_asgeojson)
       return {
         type: loc.st_asgeojson.type,
         coordinates: loc.st_asgeojson.coordinates,
@@ -118,7 +123,10 @@ export class Map extends Component {
     locTitle.setAttribute("class", "nostyle");
     locTitle.innerText = feature.properties.name;
 
-    layer.bindPopup(locTitle, { closeButton: false })
+    const popup = L.popup();
+    popup.setContent(locTitle);
+
+    layer.bindPopup(popup, { offset: L.point(0, -17), closeButton: false })
     layer.on({
       click: () => {
         this.triggerEvent('locationSelected', { info: feature.properties, locations: Object.keys(this.episodeLocations) });
@@ -127,6 +135,10 @@ export class Map extends Component {
       },
       mouseover: () => {
         layer.openPopup();
+      },
+      mouseout: (e) => {
+        if (this.activeLocations.indexOf(feature.properties.gid) == -1)
+        setTimeout(() => layer.closePopup(), 5000);
       }
     });
   }
