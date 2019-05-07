@@ -46,7 +46,7 @@ Single character scrubbing
 ## Final Deliverables
 - Interactive Poster: a video or interactive web page in the style of a poster presentation.
 - Paper: a 2-4 page paper (not counting references) written in the form of a conference paper submission. The paper should present your goals, related work, a detailed description of your system, and a discussion of your design.
-- Project Page: List title, team members, summary image, abstract, link to paper, poster, running instructions for the software and other optional materials. Host the page with Github Pages.
+- Project Page: ~~List title~~, ~~team members~~, summary image, ~~abstract~~, link to paper, poster, ~~running instructions for the software and other optional materials~~. Host the page with Github Pages.
 - Readme File: In the repository's readme.md, include a breakdown of how the work was split among the group members and a commentary on the project process.
 - Code: Push code to OG MIT github
 - Application: Update live heroku
