@@ -3,8 +3,8 @@ import template from './timeline-slider.html'
 import { Component } from '../component'
 
 /**
- * Info Panel Component
- * Download and display metadata for selected items.
+ * Timeline Slider Component
+ * Select season and episode to display.
  * @extends Component
  */
 export class TimelineSlider extends Component {
