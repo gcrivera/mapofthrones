@@ -214,5 +214,6 @@ export class Map extends Component {
 
   locationBack(locInfo) {
     this.triggerEvent('locationSelected', { info: locInfo, locations: Object.keys(this.episodeLocations) });
+    this.setActiveLocations([locInfo.gid]);
   }
 }
