@@ -6,15 +6,17 @@
 How do characters move and interact throughout Game of Thrones?
 
 ## TODOs
-- Add episode description
-- zoom details? - show character images if zoomed in close enough
-- move back button?
-- if click on already selected location - change character being displayed?
 - bug - remove back button when scrub
 - bug - if click on a character and one of their locations isn't rendered, need to drop a pin on the map
+- bug - update pins when select character
+- add a way to unselect character
 - note if a character is not in an episode
 - fix episode title styling (wierd for long episodes, eg s3 e4)
 - style info box
+- re-style character thumbnails
+- zoom details? - show character images if zoomed in close enough
+- move back button?
+- Add episode description
 
 - ~~Backend - on initialization - get all episodes w/ locations to have in front-end~~
 - ~~Backend - call for location by season/episode~~
