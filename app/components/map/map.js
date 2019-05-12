@@ -40,6 +40,13 @@ export class Map extends Component {
 
     this.map.zoomControl.setPosition('bottomright'); // Position zoom control
 
+    this.map.on({ 
+      click: () => {
+        this.setActiveLocations([]);
+        this.triggerEvent('locationSelected', { info: null });
+      }
+    });
+
     // Render Carto GoT tile baselayer
     L.tileLayer(
       'https://cartocdn-gusc.global.ssl.fastly.net/ramirocartodb/api/v1/map/named/tpl_756aec63_3adb_48b6_9d14_331c6cbc47cf/all/{z}/{x}/{y}.png',
