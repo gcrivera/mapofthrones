@@ -15,6 +15,7 @@ export class InfoPanel extends Component {
     super(placeholderId, props, template)
     this.api = props.data.apiService
     this.locationInfo = null;
+    this.activeCharacter = null;
     this.refs.toggle.addEventListener('click', () => this.refs.container.classList.toggle('info-active'))
   }
 
@@ -99,10 +100,15 @@ export class InfoPanel extends Component {
     setActiveCharCheckbox.addEventListener("change", (e) => { 
       if (e.target.checked) {
         this.triggerEvent("setActiveCharacter", { charInfo });
+        this.activeCharacter = charInfo.name;
       } else {
         this.triggerEvent("setActiveCharacter", { charInfo: null });
+        this.activeCharacter = null;
       }
     });
+    if (charInfo.name === this.activeCharacter) {
+      setActiveCharCheckbox.setAttribute("checked", true);
+    }
 
     setActiveCharForm.appendChild(setActiveCharCheckbox);
 
