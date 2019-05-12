@@ -107,6 +107,17 @@
     }
   }
 
+  #set-character-form {
+    text-align: right;
+    font-size: 12px;
+    display: block;
+    cursor: pointer;
+
+    #set-character-checkbox {
+      cursor: pointer;
+    }
+  }
+
   .character-img {
     max-width: 150px;
     max-height: 150px;

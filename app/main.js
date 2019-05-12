@@ -2,6 +2,7 @@ import './main.scss';
 import template from './main.html';
 
 import { ApiService } from './services/api'
+import { InfoBox } from './components/info-box/info-box';
 import { InfoPanel } from './components/info-panel/info-panel';
 import { Map } from './components/map/map';
 import { TimelineSlider } from './components/timeline-slider/timeline-slider';
@@ -25,6 +26,9 @@ class ViewController {
 
   /** Initialize Components with data and event listeners */
   initializeComponents () {
+    // Initialize Info Box
+    this.infoBoxComponent = new InfoBox('info-box-placeholder', {});
+    
     // Initialize Info Panel
     this.infoComponent = new InfoPanel('info-panel-placeholder', {
       data: { apiService: this.api },
@@ -40,6 +44,10 @@ class ViewController {
         locationBack: event => {
           const { locInfo } = event.detail;
           this.mapComponent.locationBack(locInfo);
+        },
+        setActiveCharacter: event => {
+          const { charInfo } = event.detail;
+          this.infoBoxComponent.setCharacter(charInfo);
         }
       }
     });

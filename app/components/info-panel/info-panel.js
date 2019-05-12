@@ -88,6 +88,24 @@ export class InfoPanel extends Component {
     this.triggerEvent("selectCharacter", { name: charInfo.name, locations: charInfo.locations });
     this.refs.content.innerHTML = "";
 
+    const setActiveCharForm = document.createElement("label");
+    setActiveCharForm.setAttribute("id", "set-character-form");
+    setActiveCharForm.setAttribute("for", "set-character-checkbox");
+    setActiveCharForm.innerText = "Select this character"
+    
+    const setActiveCharCheckbox = document.createElement("input");
+    setActiveCharCheckbox.setAttribute("type", "checkbox");
+    setActiveCharCheckbox.setAttribute("id", "set-character-checkbox");
+    setActiveCharCheckbox.addEventListener("change", (e) => { 
+      if (e.target.checked) {
+        this.triggerEvent("setActiveCharacter", { charInfo });
+      } else {
+        this.triggerEvent("setActiveCharacter", { charInfo: null });
+      }
+    });
+
+    setActiveCharForm.appendChild(setActiveCharCheckbox);
+
     const charImg = document.createElement("img");
     charImg.setAttribute("src", charInfo.image);
     charImg.setAttribute("class", "character-img");
@@ -98,6 +116,7 @@ export class InfoPanel extends Component {
     this.getCharInfoHTML(charDiv, "Culture", charInfo.culture, charInfo.sharedculture);
     this.getCharInfoHTML(charDiv, "Religion", charInfo.religion, charInfo.sharedreligion);
 
+    this.refs.content.appendChild(setActiveCharForm);
     this.refs.content.appendChild(charImg);
     this.refs.content.appendChild(charDiv);
     
