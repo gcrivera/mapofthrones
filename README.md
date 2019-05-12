@@ -9,8 +9,11 @@ How do characters move and interact throughout Game of Thrones?
 - Add episode description
 - way to explore character without going through location
 - zoom details? - show character images if zoomed in close enough
-- Add tick marks to timeline (to help with differentiating between episode scrubbing and scene scrubbing)
 - move back button?
+- click out of location to unselect
+- click on pin to unselect location
+- close sidebar when unselect location
+- if click on already selected location - change character being displayed?
 
 - ~~Backend - on initialization - get all episodes w/ locations to have in front-end~~
 - ~~Backend - call for location by season/episode~~
@@ -31,6 +34,8 @@ How do characters move and interact throughout Game of Thrones?
 - ~~indicate number of (major) characters at location?~~
 - ~~click on location - side bar pop open~~
 - ~~bug - pin colors~~
+- ~~Add tick marks to timeline (to help with differentiating between episode scrubbing and scene scrubbing)~~
+- ~~close panel on use timeline~~
 
 ## Use Notes
 Click on location -> click on character
@@ -47,7 +52,6 @@ Single character scrubbing
 
 ## Ideas
 - Show where characters are from - could by implemented as a new map, or as a filter (or both?)
-- Use bluebike-style pins to show how many people in each location (click/hover for more info)
 - add filters: e.g. show where all starks are (bonus idea - render "heaven")
 
 
