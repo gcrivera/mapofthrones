@@ -210,9 +210,14 @@ module.exports = {
         FROM scenes
         WHERE seasonnum = $1
         AND episodenum = $2
-        AND location = $3
-        AND sublocation NOT IN (` + params.join(',') + `);`
-      result = await client.query(summaryQuery, [ seasonNum, episodeNum, location ].concat(locations))
+        AND location = $3`;
+        if (params.length == 0) {
+          summaryQuery += ';';
+          result = await client.query(summaryQuery, [ seasonNum, episodeNum, location ])
+        } else {
+          summaryQuery += `AND sublocation NOT IN (` + params.join(',') + `);`;
+          result = await client.query(summaryQuery, [ seasonNum, episodeNum, location ].concat(locations))
+        }
     }
 
     let allCharacters = [];
