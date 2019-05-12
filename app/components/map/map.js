@@ -56,7 +56,7 @@ export class Map extends Component {
   }
 
   // Add locations of given episode to map
-  async displayEpisode(seasonNum, episodeNum, episodeData) {
+  async displayEpisode(episodeData) {
     if (this.curLayer) {
       this.map.removeLayer(this.curLayer);
     }
@@ -77,9 +77,6 @@ export class Map extends Component {
     geoJSONLocs.map((loc) => {
       this.episodeLocations[loc.properties.name] = loc.properties.gid;
     });
-
-    const numChars = geoJSONLocs.map(loc => loc.properties.numCharMain);
-    const maxNumChars = Math.max(...numChars);
 
     this.curLayer = L.geoJSON(geoJSONLocs, {
       // Show marker on location
