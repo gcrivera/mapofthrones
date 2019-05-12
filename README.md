@@ -6,7 +6,6 @@
 How do characters move and interact throughout Game of Thrones?
 
 ## TODOs
-- bug - pin colors
 - Add episode description
 - way to explore character without going through location
 - zoom details? - show character images if zoomed in close enough
@@ -31,6 +30,7 @@ How do characters move and interact throughout Game of Thrones?
 - ~~bug - back button doesn't unhighlight location icons (if char in multiple locations)~~
 - ~~indicate number of (major) characters at location?~~
 - ~~click on location - side bar pop open~~
+- ~~bug - pin colors~~
 
 ## Use Notes
 Click on location -> click on character

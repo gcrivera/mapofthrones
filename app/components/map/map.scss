@@ -31,14 +31,10 @@
   --color-2: #000;
 }
 
-// .map-icon {
-//   fill: url(#my-gradient) #000;
-// }
-
 .map-icon.active {
-  fill: #100CB4;
+  fill: #100CB4 !important;
 }
 
 .map-icon.highlight {
-  fill: #ffc549;
+  fill: #ffc549 !important;
 }
