@@ -43,8 +43,7 @@ export class InfoPanel extends Component {
     this.locationInfo = locInfo;
 
     this.refs.backButton.classList.remove("active");
-    this.refs.backButton.removeEventListener("click", this.triggerBackButton);
-    console.log(this.refs.backButton)
+    this.refs.backButton.removeEventListener("click", this.listener);
 
     const locTitle = document.createElement("a");
     locTitle.setAttribute("href", locInfo.url);
@@ -101,14 +100,11 @@ export class InfoPanel extends Component {
 
     this.refs.content.appendChild(charImg);
     this.refs.content.appendChild(charDiv);
-
+    
+    let self = this;
+    this.listener = function () { self.triggerEvent('locationBack', { locInfo: self.locationInfo }); }
     this.refs.backButton.classList.add("active");
-    this.refs.backButton.addEventListener("click", this.triggerBackButton);
-  }
-
-  triggerBackButton() {
-    this.triggerEvent('locationBack', { locInfo: this.locationInfo });
-    return
+    this.refs.backButton.addEventListener("click", this.listener);
   }
 
   getCharInfoHTML(charDiv, header, info, sharedLocs) {
