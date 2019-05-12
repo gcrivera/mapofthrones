@@ -14,6 +14,8 @@ How do characters move and interact throughout Game of Thrones?
 - click on pin to unselect location
 - close sidebar when unselect location
 - if click on already selected location - change character being displayed?
+- bug - remove back button when scrub
+- bug - if click on a character and one of their locations isn't rendered, need to drop a pin on the map
 
 - ~~Backend - on initialization - get all episodes w/ locations to have in front-end~~
 - ~~Backend - call for location by season/episode~~

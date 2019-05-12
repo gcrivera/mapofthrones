@@ -14,8 +14,7 @@ export class InfoBox extends Component {
     super(placeholderId, props, template)
   }
 
-  setCharacter(charInfo) {
-    console.log(charInfo);
+  setActiveCharacter(charInfo) {
     if (charInfo) {
       this.refs.characterContainer.innerText = charInfo.name;
     } else {

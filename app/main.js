@@ -47,7 +47,8 @@ class ViewController {
         },
         setActiveCharacter: event => {
           const { charInfo } = event.detail;
-          this.infoBoxComponent.setCharacter(charInfo);
+          this.infoBoxComponent.setActiveCharacter(charInfo);
+          this.timelineComponent.setActiveCharacter(charInfo);
         }
       }
     });

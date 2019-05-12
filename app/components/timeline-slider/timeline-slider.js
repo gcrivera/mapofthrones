@@ -16,6 +16,7 @@ export class TimelineSlider extends Component {
     this.api = props.data.apiService
 
     this.allEpisodeData;
+    this.activeCharLocs;
     this.setupSlider(67);
     this.setupTicks();
 
@@ -66,7 +67,16 @@ export class TimelineSlider extends Component {
     const parsedValues = this.parseValue(this.refs.timelineSlider.value);
     const season = parsedValues[0];
     const episode = parsedValues[1];
-    const episodeData = this.allEpisodeData[`${season}${episode}`];
+    const key = `${season}${episode}`;
+    const episodeData = this.allEpisodeData[key];
+
+    if (this.activeCharLocs) {
+      let newLocs = this.activeCharLocs[key] ? this.activeCharLocs[key] : [];
+      episodeData.locations = newLocs.map(loc => {
+        return episodeData.locations.filter(orgLoc => orgLoc.name === loc.name)[0];
+      });
+    }
+
     this.triggerEvent('setEpisode', { season, episode, episodeData });
   }
 
@@ -79,5 +89,27 @@ export class TimelineSlider extends Component {
     if (episodeNum === 0) { episodeNum = 10; }
     const seasonNum = (value - episodeNum) / 10 + 1;
     return [seasonNum, episodeNum];
+  }
+
+  async setActiveCharacter(charInfo) {
+    if (!charInfo) {
+      this.activeCharLocs = null;
+      return;
+    }
+    
+    const activeCharInfo = await this.api.getCharacterTimeline(charInfo.name);
+    this.activeCharLocs = {};
+    activeCharInfo.scenes.map(scene => {
+      const key = `${scene.seasonnum}${scene.episodenum}`;
+      if (!this.activeCharLocs[key]) { 
+        this.activeCharLocs[key] = []; 
+      }
+      // determining if loc is already in array
+      const locInLocs = this.activeCharLocs[key].filter(loc => loc.name === scene.location.name);
+      if (locInLocs.length === 0) {
+        scene.location.st_asgeojson = JSON.parse(scene.location.st_asgeojson);
+        this.activeCharLocs[key].push(scene.location);
+      }
+    });
   }
 }

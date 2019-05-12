@@ -141,8 +141,8 @@ export class Map extends Component {
       <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="16px" height="24px" viewBox="0 0 848.000000 1280.000000" preserveAspectRatio="xMidYMid meet">
         <defs>
           <linearGradient class="my-gradient" id="gradient-${locID}" x2="0" y2="1">
-            <stop stop-color="var(--color-1)" offset="${pctMainChar}%" />
-            <stop stop-color="var(--color-2)" offset="${pctMainChar}%" />
+            <stop stop-color="var(--color-1)" offset="${pctMainChar ? pctMainChar : 0}%" />
+            <stop stop-color="var(--color-2)" offset="${pctMainChar ? pctMainChar : 0}%" />
           </linearGradient>
         </defs>
         <g class="map-icon" id={locID} style="fill:url(#gradient-${locID}) #000;"stroke="none" transform="translate(0.000000,1280.000000) scale(0.100000,-0.100000)">
