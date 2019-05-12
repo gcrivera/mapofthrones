@@ -78,8 +78,6 @@ export class Map extends Component {
       // Show marker on location
       pointToLayer: (feature, latlng) => {
         const mainCharRatio = feature.properties.numCharMain / feature.properties.numChar;
-        // const mainCharRatio = feature.properties.numCharMain / maxNumChars;
-        console.log(feature.properties.name, feature.properties.numChar, feature.properties.numCharMain, mainCharRatio)
         const icon = this.getIcon(feature.properties.gid, mainCharRatio * 100);
         return L.marker(latlng, {
           icon,
