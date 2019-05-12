@@ -189,7 +189,11 @@ export class InfoPanel extends Component {
     return [majorCharDiv, otherCharHeader, minorCharDiv];
   }
 
-  openContainer() {
+  open() {
     this.refs.container.classList.add("info-active");
+  }
+
+  close() {
+    this.refs.container.classList.remove("info-active");
   }
 }
