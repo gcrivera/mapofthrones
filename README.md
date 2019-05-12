@@ -8,7 +8,6 @@ How do characters move and interact throughout Game of Thrones?
 ## TODOs
 - Add episode description
 - way to explore character without going through location
-- indicate number of (major) characters at location?
 - zoom details? - show character images if zoomed in close enough
 - Add tick marks to timeline (to help with differentiating between episode scrubbing and scene scrubbing)
 - move back button?
@@ -30,6 +29,7 @@ How do characters move and interact throughout Game of Thrones?
 - ~~selecting character - change locations to diff color? red too subtle?~~
 - ~~add leaflet watermark~~
 - ~~bug - back button doesn't unhighlight location icons (if char in multiple locations)~~
+- ~~indicate number of (major) characters at location?~~
 
 ## Use Notes
 Click on location -> click on character

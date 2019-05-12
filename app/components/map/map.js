@@ -71,10 +71,16 @@ export class Map extends Component {
       this.episodeLocations[loc.properties.name] = loc.properties.gid;
     });
 
+    const numChars = geoJSONLocs.map(loc => loc.properties.numCharMain);
+    const maxNumChars = Math.max(...numChars);
+
     this.curLayer = L.geoJSON(geoJSONLocs, {
       // Show marker on location
       pointToLayer: (feature, latlng) => {
-        const icon = this.getIcon(feature.properties.gid);
+        const mainCharRatio = feature.properties.numCharMain / feature.properties.numChar;
+        // const mainCharRatio = feature.properties.numCharMain / maxNumChars;
+        console.log(feature.properties.name, feature.properties.numChar, feature.properties.numCharMain, mainCharRatio)
+        const icon = this.getIcon(feature.properties.gid, mainCharRatio * 100);
         return L.marker(latlng, {
           icon,
           title: feature.properties.name
@@ -131,17 +137,17 @@ export class Map extends Component {
     });
   }
 
-  getIcon(locID) {
+  getIcon(locID, pctMainChar) {
 
     const iconUrl = `
       <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="16px" height="24px" viewBox="0 0 848.000000 1280.000000" preserveAspectRatio="xMidYMid meet">
         <defs>
-          <linearGradient id="my-gradient" x2="0" y2="1">
-            <stop stop-color="var(--color-1)" offset="50%" />
-            <stop stop-color="var(--color-2)" offset="50%" />
+          <linearGradient class="my-gradient" id="gradient-${locID}" x2="0" y2="1">
+            <stop stop-color="var(--color-1)" offset="${pctMainChar}%" />
+            <stop stop-color="var(--color-2)" offset="${pctMainChar}%" />
           </linearGradient>
         </defs>
-        <g class="map-icon" id={locID} stroke="none" transform="translate(0.000000,1280.000000) scale(0.100000,-0.100000)">
+        <g class="map-icon" id={locID} style="fill:url(#gradient-${locID}) #000;"stroke="none" transform="translate(0.000000,1280.000000) scale(0.100000,-0.100000)">
           <path d="M3935 12790 c-860 -64 -1638 -346 -2279 -827 -334 -251 -709 -621 -943 -931 -406 -539 -624 -1118 -695 -1847 -19 -199 -16 -700 5 -863 75 -567 272 -1057 740 -1837 235 -391 381 -614 1177 -1805 498 -744 581 -872 738 -1141 420 -719 756 -1422 992 -2074 114 -317 171 -504 325 -1075 36 -135 75 -264 86 -287 49 -101 153 -134 237 -73 78 57 115 146 247 597 250 854 395 1244 689 1848 352 723 750 1382 1591 2635 624 930 973 1506 1259 2078 168 335 255 565 300 794 92 461 99 1152 16 1579 -112 579 -379 1140 -788 1656 -117 148 -448 476 -611 606 -669 534 -1458 857 -2321 953 -165 18 -601 26 -765 14z"/>
         </g>
       </svg>`;
