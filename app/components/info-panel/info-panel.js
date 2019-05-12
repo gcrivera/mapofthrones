@@ -34,6 +34,9 @@ export class InfoPanel extends Component {
 
   // Show information when a location is selected
   async showLocInfo(locInfo, locations) {
+    this.refs.backButton.classList.remove("active");
+    this.refs.backButton.removeEventListener("click", this.listener);
+    
     if (locInfo == null) {
       this.refs.title.innerHTML = "No Location Selected";
       this.refs.content.innerHTML = "";
@@ -42,9 +45,6 @@ export class InfoPanel extends Component {
 
     locInfo = await this.api.getLocation(locInfo.name, locations, this.refs.seasonNum.innerText, this.refs.episodeNum.innerText)
     this.locationInfo = locInfo;
-
-    this.refs.backButton.classList.remove("active");
-    this.refs.backButton.removeEventListener("click", this.listener);
 
     const locTitle = document.createElement("a");
     locTitle.setAttribute("href", locInfo.url);
