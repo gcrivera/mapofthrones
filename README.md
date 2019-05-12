@@ -6,14 +6,13 @@
 How do characters move and interact throughout Game of Thrones?
 
 ## TODOs
-- bug - remove back button when scrub
 - bug - if click on a character and one of their locations isn't rendered, need to drop a pin on the map
-- bug - update pins when select character
 - add a way to unselect character
 - note if a character is not in an episode
 - fix episode title styling (wierd for long episodes, eg s3 e4)
 - style info box
 - re-style character thumbnails
+- don't make character selection disappear when scrub
 - zoom details? - show character images if zoomed in close enough
 - move back button?
 - Add episode description
@@ -43,6 +42,8 @@ How do characters move and interact throughout Game of Thrones?
 - ~~click out of location to unselect~~
 - ~~click on pin to unselect location~~
 - ~~close sidebar when unselect location~~
+- ~~bug - remove back button when scrub~~
+- ~~bug - update pins when select character~~
 
 ## Use Notes
 Click on location -> click on character

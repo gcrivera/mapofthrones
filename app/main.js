@@ -75,6 +75,10 @@ class ViewController {
           const { season, episode, episodeData } = event.detail;
           this.mapComponent.displayEpisode(episodeData);
           this.infoComponent.setSeasonEpisode(season, episode, episodeData);
+        },
+        updateMap: event => {
+          const { episodeData } = event.detail;
+          this.mapComponent.displayEpisode(episodeData, false);
         }
       }
     });

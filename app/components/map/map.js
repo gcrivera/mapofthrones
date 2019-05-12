@@ -56,7 +56,7 @@ export class Map extends Component {
   }
 
   // Add locations of given episode to map
-  async displayEpisode(episodeData) {
+  async displayEpisode(episodeData, resetPanel=true) {
     if (this.curLayer) {
       this.map.removeLayer(this.curLayer);
     }
@@ -92,7 +92,7 @@ export class Map extends Component {
     });
 
     this.map.addLayer(this.curLayer);
-    this.triggerEvent('locationSelected', { info: null });
+    if (resetPanel) this.triggerEvent('locationSelected', { info: null });
   }
 
   setLocByInfo(charInfo, infoType, locID) {
