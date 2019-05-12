@@ -58,3 +58,9 @@ Single character scrubbing
 - Readme File: In the repository's readme.md, include a breakdown of how the work was split among the group members and a commentary on the project process.
 - Code: Push code to OG MIT github
 - Application: Update live heroku
+
+
+Work was split evenly between the team members. Much of the initial dataset exploration and brainstorming was taken from our work on A3. We knew we wanted to move our original idea into a map-based visualization based on feedback we received on A3 and our own thoughts on the motivating question. From this base, we began pulling geographic data and more detailed character data from datasets we had previously investigated in A3. After we identified what data was available to us, we began to brainstorm use cases for the visualization and to sketch out possible views. We eventually settled on a map with an interactive timeline and side-bar to display information about a location at a certain point in time. After feedback from our milestone check-in and some separate user testing, we decided to move toward allowing the user to focus on following a single character. Many people simply wanted to be reminded of a single character's story arc for a season or compare the geographic movement of a character to what they had in mind from just watching the show. We kept the original functionality of the timeline, but added the option for users to follow a single chosen character.
+
+
+The data curation and cleaning, backend work, and small front-end tweaks were done by Gabrielle. The majority of the front-end work and user testing/iterating was done by Mary. All final ideas put into implementation were discussed and fine-tuned together.
