@@ -27,9 +27,25 @@
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    // background-color: #7B9766; // green
-    // background-color: #8D070B; // red
     background-color: #777;
     cursor: pointer;
     box-shadow: 0 0 3px 0 #000;
+    z-index: 1001;
   }
+
+  .timeline-tick-container {
+    position: absolute;
+    top: 24px;
+    pointer-events: none;
+  }
+
+    .timeline-tick {
+      width: 1px;
+      height: 15px;
+      background-color: #666;
+    }
+
+    .timeline-tick-label {
+      color: #666;
+      font-size: 12px;
+    }

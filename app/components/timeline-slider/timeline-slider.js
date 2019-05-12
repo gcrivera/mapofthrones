@@ -14,10 +14,10 @@ export class TimelineSlider extends Component {
   constructor (placeholderId, props) {
     super(placeholderId, props, template)
     this.api = props.data.apiService
-    // this.season = 1;
-    // this.episode = 1;
+
     this.allEpisodeData;
     this.setupSlider(67);
+    this.setupTicks();
 
     this.refs.timelineSlider.addEventListener('change', () => this.updateSeasonEpisode());
   }
@@ -27,6 +27,30 @@ export class TimelineSlider extends Component {
     this.refs.timelineSlider.max = totalNumEpisodes;
     this.refs.timelineSlider.value = this.getValue(1, 1);
     this.updateSeasonEpisode(true);
+  }
+
+  setupTicks() {
+    // All the numbers hardcoded are based off the number of episodes in seasons 1-7
+    // Adding episodes from season 8 would require modifying this code.
+    const numEps = [10, 20, 30, 40, 50, 60]
+    for (let i = 0; i < numEps.length; i++) {
+      const tickContainer = document.createElement("div");
+      tickContainer.classList.add("timeline-tick-container");
+      tickContainer.style.left = `${numEps[i] / 67 * 100}%`;
+      
+      const tick = document.createElement("div");
+      tick.classList.add("timeline-tick");
+      tickContainer.appendChild(tick);
+
+      if (i % 2 === 0) {
+        const tickLabel = document.createElement("div");
+        tickLabel.classList.add("timeline-tick-label");
+        tickLabel.innerText = `Season ${i + 2}`;
+        tickContainer.appendChild(tickLabel);
+      }
+
+      this.refs.timelineContainer.appendChild(tickContainer);
+    }
   }
 
   async updateSeasonEpisode(initialize=false) {

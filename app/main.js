@@ -50,7 +50,11 @@ class ViewController {
       events: { locationSelected: event => {
         const { info, locations } = event.detail;
         this.infoComponent.showLocInfo(info, locations);
-        if (info) this.infoComponent.openContainer();
+        if (info) {
+          this.infoComponent.open();
+        } else {
+          this.infoComponent.close();
+        }
       }}
     });
 
