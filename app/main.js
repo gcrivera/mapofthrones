@@ -27,7 +27,14 @@ class ViewController {
   /** Initialize Components with data and event listeners */
   initializeComponents () {
     // Initialize Info Box
-    this.infoBoxComponent = new InfoBox('info-box-placeholder', {});
+    this.infoBoxComponent = new InfoBox('info-box-placeholder', {
+      events: {
+        unSetActiveCharacter: () => {
+          this.infoBoxComponent.setActiveCharacter(null);
+          this.timelineComponent.setActiveCharacter(null);
+        }
+      }
+    });
     
     // Initialize Info Panel
     this.infoComponent = new InfoPanel('info-panel-placeholder', {

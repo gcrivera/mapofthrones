@@ -12,6 +12,8 @@ export class InfoBox extends Component {
    */
   constructor (placeholderId, props) {
     super(placeholderId, props, template)
+
+    this.refs.closeButton.addEventListener("click", () => this.triggerEvent("unSetActiveCharacter", {}));
   }
 
   setActiveCharacter(charInfo) {
