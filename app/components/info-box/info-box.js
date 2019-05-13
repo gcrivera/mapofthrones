@@ -12,11 +12,19 @@ export class InfoBox extends Component {
    */
   constructor (placeholderId, props) {
     super(placeholderId, props, template)
+    this.curCharInfo = null;
 
     this.refs.closeButton.addEventListener("click", () => this.triggerEvent("unSetActiveCharacter", {}));
   }
 
   setActiveCharacter(charInfo) {
+    if (this.curCharInfo) {
+      this.refs.characterContainer.innerText = "";
+      this.refs.notPresentContainer.classList.add("hide");
+      this.refs.infoBoxContainer.classList.add("hide");
+      this.curCharInfo = null;
+    }
+
     if (charInfo) {
       this.refs.infoBoxContainer.classList.remove("hide");
       
@@ -27,10 +35,8 @@ export class InfoBox extends Component {
       const nameDiv = document.createElement("div");
       nameDiv.innerText = charInfo.name;
       this.refs.characterContainer.appendChild(nameDiv);
-    } else {
-      this.refs.characterContainer.innerText = "";
-      this.refs.notPresentContainer.classList.add("hide");
-      this.refs.infoBoxContainer.classList.add("hide");
+
+      this.curCharInfo = charInfo;
     }
   }
 

@@ -88,9 +88,9 @@ export class TimelineSlider extends Component {
 
     if (this.activeCharLocs) {
       let newLocs = this.activeCharLocs[key] ? this.activeCharLocs[key] : [];
-      episodeData.allLocations = episodeData.locations;
+      episodeData.allLocations = episodeData.allLocations ? episodeData.allLocations : episodeData.locations;
       episodeData.locations = newLocs.map(loc => {
-        return episodeData.locations.filter(orgLoc => orgLoc.name === loc.name)[0];
+        return episodeData.allLocations.filter(orgLoc => orgLoc.name === loc.name)[0];
       });
     } else if (episodeData.allLocations) {
       episodeData.locations = episodeData.allLocations;
@@ -100,9 +100,11 @@ export class TimelineSlider extends Component {
   }
 
   async setActiveCharacter(charInfo) {
-    if (!charInfo) {
+    if (this.activeCharLocs) {
       this.activeCharLocs = null;
-    } else {
+    }
+
+    if (charInfo) {
       const activeCharInfo = await this.api.getCharacterTimeline(charInfo.name);
       this.activeCharLocs = {};
       activeCharInfo.scenes.map(scene => {
