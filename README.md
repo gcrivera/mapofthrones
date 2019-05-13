@@ -7,6 +7,7 @@ How do characters move and interact throughout Game of Thrones?
 
 ## TODOs
 - bug - if click on a character and one of their locations isn't rendered, need to drop a pin on the map
+- bug - if hover over origin/etc, need to drop pins if necessary
 - add a way to unselect character
 - note if a character is not in an episode
 - fix episode title styling (wierd for long episodes, eg s3 e4)
@@ -16,6 +17,7 @@ How do characters move and interact throughout Game of Thrones?
 - zoom details? - show character images if zoomed in close enough
 - move back button?
 - Add episode description
+- pan map to locations that get rendered if out of view?
 
 - ~~Backend - on initialization - get all episodes w/ locations to have in front-end~~
 - ~~Backend - call for location by season/episode~~
@@ -45,18 +47,23 @@ How do characters move and interact throughout Game of Thrones?
 - ~~bug - remove back button when scrub~~
 - ~~bug - update pins when select character~~
 
-## Use Notes
-Click on location -> click on character
-- scrub timeline -> scrubs through season/episodes as normal
-- clicks 'select character' -> scrubs through movements for character
-
-Single character scrubbing
-- indicate selected character - picture in right hand top corner?
-- show info like which characters they're with
-- intra-episode movements?
-- animate movements?
-- Draw then fade lines to show movement?
-- pan map with big movements? (@dany)
+## Video Things to Include
+- show map
+- explain shading of pins
+- select location
+- look at all location data
+- scrub to new episode, see pins change
+- select location
+- select character
+- look at character data
+- hover over things to see where people are
+- check to select character
+- see that map updates
+- scrub to new episode (one that they're in)
+- select location
+- switch character selected 
+- scrub to new episode (one that they're not in)
+- see indication that not in episdoe
 
 ## Ideas
 - Show where characters are from - could by implemented as a new map, or as a filter (or both?)
