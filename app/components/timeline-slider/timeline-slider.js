@@ -92,30 +92,32 @@ export class TimelineSlider extends Component {
       episodeData.locations = newLocs.map(loc => {
         return episodeData.locations.filter(orgLoc => orgLoc.name === loc.name)[0];
       });
+    } else if (episodeData.allLocations) {
+      episodeData.locations = episodeData.allLocations;
     }
+
     return { season, episode, episodeData };
   }
 
   async setActiveCharacter(charInfo) {
     if (!charInfo) {
       this.activeCharLocs = null;
-      return;
+    } else {
+      const activeCharInfo = await this.api.getCharacterTimeline(charInfo.name);
+      this.activeCharLocs = {};
+      activeCharInfo.scenes.map(scene => {
+        const key = `${scene.seasonnum}${scene.episodenum}`;
+        if (!this.activeCharLocs[key]) { 
+          this.activeCharLocs[key] = []; 
+        }
+        // determining if loc is already in array
+        const locInLocs = this.activeCharLocs[key].filter(loc => loc.name === scene.location.name);
+        if (locInLocs.length === 0) {
+          scene.location.st_asgeojson = JSON.parse(scene.location.st_asgeojson);
+          this.activeCharLocs[key].push(scene.location);
+        }
+      });
     }
-    
-    const activeCharInfo = await this.api.getCharacterTimeline(charInfo.name);
-    this.activeCharLocs = {};
-    activeCharInfo.scenes.map(scene => {
-      const key = `${scene.seasonnum}${scene.episodenum}`;
-      if (!this.activeCharLocs[key]) { 
-        this.activeCharLocs[key] = []; 
-      }
-      // determining if loc is already in array
-      const locInLocs = this.activeCharLocs[key].filter(loc => loc.name === scene.location.name);
-      if (locInLocs.length === 0) {
-        scene.location.st_asgeojson = JSON.parse(scene.location.st_asgeojson);
-        this.activeCharLocs[key].push(scene.location);
-      }
-    });
 
     const { episodeData } = this.getEpisodeInfo();
 
