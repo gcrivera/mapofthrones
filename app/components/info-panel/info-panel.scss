@@ -12,9 +12,9 @@
 }
 
   .info-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    font-family: $fontThrones;
+    font-weight: bold;
+    font-size: 20px;
 
     a.nostyle:link {
       text-decoration: inherit;
@@ -29,11 +29,13 @@
     a.nostyle:visited {
       color: inherit;
     }
+
+    #info-numbers {
+      font-size: 12px;
+    }
   }
 
   .info-title {
-    font-family: $fontThrones;
-    font-weight: bold;
     font-size: 20px;
 
     a.nostyle:link {
