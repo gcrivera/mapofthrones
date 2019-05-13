@@ -64,18 +64,6 @@ export class TimelineSlider extends Component {
         });
       });
     }
-    // const parsedValues = this.parseValue(this.refs.timelineSlider.value);
-    // const season = parsedValues[0];
-    // const episode = parsedValues[1];
-    // const key = `${season}${episode}`;
-    // const episodeData = this.allEpisodeData[key];
-
-    // if (this.activeCharLocs) {
-    //   let newLocs = this.activeCharLocs[key] ? this.activeCharLocs[key] : [];
-    //   episodeData.locations = newLocs.map(loc => {
-    //     return episodeData.locations.filter(orgLoc => orgLoc.name === loc.name)[0];
-    //   });
-    // }
     const episodeInfo = this.getEpisodeInfo()
     this.triggerEvent('setEpisode', episodeInfo);
   }
@@ -100,6 +88,7 @@ export class TimelineSlider extends Component {
 
     if (this.activeCharLocs) {
       let newLocs = this.activeCharLocs[key] ? this.activeCharLocs[key] : [];
+      episodeData.allLocations = episodeData.locations;
       episodeData.locations = newLocs.map(loc => {
         return episodeData.locations.filter(orgLoc => orgLoc.name === loc.name)[0];
       });
