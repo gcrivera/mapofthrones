@@ -75,10 +75,12 @@ class ViewController {
           const { season, episode, episodeData } = event.detail;
           this.mapComponent.displayEpisode(episodeData);
           this.infoComponent.setSeasonEpisode(season, episode, episodeData);
+          this.infoBoxComponent.setNotPresent(episodeData.locations.length === 0);
         },
         updateMap: event => {
           const { episodeData } = event.detail;
           this.mapComponent.displayEpisode(episodeData, false);
+          this.infoBoxComponent.setNotPresent(episodeData.locations.length === 0);
         }
       }
     });

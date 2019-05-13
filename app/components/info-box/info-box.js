@@ -16,9 +16,27 @@ export class InfoBox extends Component {
 
   setActiveCharacter(charInfo) {
     if (charInfo) {
-      this.refs.characterContainer.innerText = charInfo.name;
+      this.refs.infoBoxContainer.classList.remove("hide");
+      
+      const charImg = document.createElement("img");
+      charImg.setAttribute("src", charInfo.image);
+      this.refs.characterContainer.appendChild(charImg);
+
+      const nameDiv = document.createElement("div");
+      nameDiv.innerText = charInfo.name;
+      this.refs.characterContainer.appendChild(nameDiv);
     } else {
       this.refs.characterContainer.innerText = "";
+      this.refs.notPresentContainer.classList.add("hide");
+      this.refs.infoBoxContainer.classList.add("hide");
+    }
+  }
+
+  setNotPresent(isNotPresent) {
+    if (isNotPresent) {
+      this.refs.notPresentContainer.classList.remove("hide");
+    } else {
+      this.refs.notPresentContainer.classList.add("hide");
     }
   }
 }

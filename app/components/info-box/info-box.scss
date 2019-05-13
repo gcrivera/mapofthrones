@@ -1,18 +1,45 @@
 @import '../../_variables.scss';
 
 #info-box-container {
+ text-align: center; 
+}
+
+#character-container {
+  font-family: $fontThrones;
   position: absolute;
   top: 10px;
   right: 10px;
   z-index: 1000;
-  height: 50px;
   width: 100px;
   padding: 10px;
   border-radius: 5px;
   box-shadow: 0 0 10px 0 #000;
   background-color: #fff;
+
+  img {
+    max-width: 50px;
+    max-height: 100px; 
+  }
+
 }
 
-#character-container {
-  font-family: $fontThrones;
+.notification-popup {
+  width: 75px;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 0 #000;
+  position: absolute;
+  right: 140px;
+  top: 10px;
+  background-color: #ccc;
+  color: #444;
+  z-index: 1000;
+}
+
+#not-present-container {
+  font-size: 10px;
+}
+
+.hide {
+  display: none;
 }
